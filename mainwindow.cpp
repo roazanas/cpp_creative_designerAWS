@@ -39,6 +39,7 @@ void MainWindow::on_loadButton_clicked()
 
     this->viewImage = originalImage;
     this->layers.clear();
+    this->noise = QImage();
 
     // корипуем основную картинку
     // this->viewImage = QImage(originalImage)
@@ -75,9 +76,10 @@ void MainWindow::wheelEvent(QWheelEvent *event)
     }
 
     // применение масштабирования
+    viewImage = applyEffects();
     QPixmap scaledPixmap = rescaleImageByHeight(viewImage,
                                                  originalImage.height() * scaleFactor);
-
+    viewImage = originalImage;
     // обновление QLabel
     ui->image->setPixmap(scaledPixmap);
 
