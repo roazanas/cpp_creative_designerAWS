@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>730</width>
-    <height>500</height>
+    <width>800</width>
+    <height>800</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>800</height>
+   </size>
   </property>
   <property name="maximumSize">
    <size>
@@ -43,13 +49,16 @@
        <bool>true</bool>
       </property>
       <property name="plainText">
-       <string>Some useful info
-Another some useful info
-INFO | INFO | INFO | INFO
-
-
-
-Useless info</string>
+       <string/>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+      <property name="backgroundVisible">
+       <bool>false</bool>
+      </property>
+      <property name="placeholderText">
+       <string>Загрузите изображение, нажав на большую кнопку в виде иконки этого приложения</string>
       </property>
      </widget>
     </item>
@@ -85,6 +94,9 @@ Useless info</string>
       <property name="scaledContents">
        <bool>false</bool>
       </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+      </property>
       <property name="wordWrap">
        <bool>false</bool>
       </property>
@@ -92,61 +104,6 @@ Useless info</string>
     </item>
     <item>
      <layout class="QGridLayout" name="gridLayout">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <item row="3" column="0">
-       <widget class="QPushButton" name="pushButton_4">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Tool4</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Tool2</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QPushButton" name="pushButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/res/icon.svg</normaloff>build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/res/icon.svg</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>100</width>
-          <height>100</height>
-         </size>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="0">
        <widget class="QPushButton" name="pushButton_3">
         <property name="sizePolicy">
@@ -155,8 +112,17 @@ Useless info</string>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>120</height>
+         </size>
+        </property>
         <property name="text">
-         <string>Tool3</string>
+         <string>Tool</string>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -168,8 +134,105 @@ Useless info</string>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>120</height>
+         </size>
+        </property>
         <property name="text">
-         <string>Tool5</string>
+         <string>Tool</string>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="loadButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>120</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>res/icon.svg</normaloff>res/icon.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+O</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QPushButton" name="pushButton_4">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>120</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Tool</string>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>120</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Tool</string>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -182,8 +245,8 @@ Useless info</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>730</width>
-     <height>21</height>
+     <width>800</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings">

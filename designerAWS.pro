@@ -22,8 +22,3 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-DISTFILES += \
-    build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/res/icon.svg \
-    build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/res/stub.jpg \
-    res/stub.jpg

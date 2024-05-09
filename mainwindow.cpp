@@ -7,41 +7,95 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+}
 
-    // Сюда вставлять ПОЛНЫЙ путь до картинки которую нужно отобразить
-    originalImage.load("C:\\Users\\echo1\\Desktop\\designerAWS\\build\\Desktop_Qt_6_7_0_MinGW_64_bit-Debug\\res\\520efb741b4f940e59e165debcddc3ed.jpeg");
+QPixmap MainWindow::rescaleImageByHeight(const QImage originalImage, int newHeight)
+{
+    // коэф. который и изменяет размер
+    double k = static_cast<double>(originalImage.height()) / originalImage.width();
+    int newWidth = static_cast<int>(newHeight / k);
 
-    // копипуем основную картинку
-    this->viewImage = QImage(originalImage);
+    QPixmap newPixmap = QPixmap::fromImage(originalImage).scaled(newWidth, newHeight);
+    return newPixmap;
+}
 
-    // новая пиксель-мапа исходной картинки с высотой "1000"
-    // высота 1000 - оптималная вычисленная для экрана 1920x1080
-    QPixmap scaledPixmap = newSize(originalImage,
-                                   originalImage.width(),
-                                   originalImage.height(),
-                                   1000);
+void MainWindow::on_loadButton_clicked()
+{
+    // даёт юзеру выбрать картинку и возвращает её полный путь
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Выберите картинку"),
+                                                    "/",
+                                                    tr("Картинки (*.png *.jpg *.jpeg)"));
+    ui->loadButton->setChecked(false);
+    if (fileName.isEmpty())
+    {
+        return;
+    }
+    currentImagePath = fileName;
+    originalImage.load(fileName);
+
+    // корипуем основную картинку
+    // this->viewImage = QImage(originalImage)
+
+    double a = ui->centralwidget->height();
+    double b = originalImage.height();
+
+    scaleFactor = a / b; // сброс коэф. масштабирования
+    // новая пиксель-мапа исходной картинки с высотой окна программы
+    QPixmap scaledPixmap = rescaleImageByHeight(originalImage,
+                                                 ui->centralwidget->height());
+
     ui->image->setPixmap(scaledPixmap);
     //ui->image->setFixedSize(scaledPixmap.size());
     ui->image->setAlignment(Qt::AlignCenter);
+
+
+    // отображаем информацию о картинке
+    updateInfo();
 }
 
-QPixmap MainWindow::newSize(const QImage originalImage, int w, int h, int newHeight)
+void MainWindow::wheelEvent(QWheelEvent *event)
 {
-    // коэф. который и изменяет размер
-    double k = static_cast<double>(h) / w;
-    int newWidth = static_cast<int>(newHeight / k);
-
-    // если ширина больше допустимого, 1600 - макс доп. ширина
-    if (newWidth > 1600)
+    if (currentImagePath.isEmpty())
     {
-        newWidth = 1600;
-        newHeight = static_cast<int>(newWidth * k);
+        return;
     }
-    QPixmap newPixmap = QPixmap::fromImage(originalImage).scaled(newWidth, newHeight);
-    return newPixmap;
+    // определение направления прокрутки
+    int delta = event->angleDelta().y();
+
+    // изменение scaleFactor
+    if (delta > 0) {
+        scaleFactor *= 1.05 ; // Увеличить
+    } else if (delta < 0) {
+        scaleFactor /= 1.05; // Уменьшить
+    }
+
+    // применение масштабирования
+    QPixmap scaledPixmap = rescaleImageByHeight(originalImage,
+                                                 originalImage.height() * scaleFactor);
+
+    // обновление QLabel
+    ui->image->setPixmap(scaledPixmap);
+
+    updateInfo();
+}
+
+QString MainWindow::getImageInfo()
+{
+    QString result;
+    QStringList filePathArray = currentImagePath.split("/");
+    QString sizeString = QString("(%1 x %2)").arg(originalImage.width()).arg(originalImage.height());
+    result += "• Имя файла: \n\t" + filePathArray.last() + "\n\n";
+    result += "• Размеры изображения: \n\t" + sizeString + "\n\n";
+    result += "• Коэф. масштабирования: \n\t" + std::to_string(scaleFactor) + "\n\n";
+    return result;
+}
+
+void MainWindow::updateInfo() {
+    ui->infoPlain->setPlainText(getImageInfo());
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
