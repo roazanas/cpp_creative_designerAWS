@@ -107,10 +107,13 @@ void MainWindow::on_noiseSlider_move(int value)
     }
 
     float fvalue = static_cast<double>(value) / 100.0;
-    viewImage = combiningImagesSameSize(originalImage, noise, fvalue);
-    this->layers["noise"] = {viewImage, fvalue};
 
+    // сначала применяет все существующие эффекты, потом уже применяет и сохраняет этот
     viewImage = applyEffects();
+
+    viewImage = combiningImagesSameSize(originalImage, noise, fvalue);
+
+    this->layers["noise"] = {this->noise, fvalue};
 
     QPixmap scaledPixmap = rescaleImageByHeight(viewImage,
                                                 originalImage.height() * scaleFactor);
