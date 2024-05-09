@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QRandomGenerator>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -7,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    connect(ui->noiseSlider, &QSlider::valueChanged, this, &MainWindow::on_noiseSlider_move);
+    //connect(ui->saturationSlider, &QSlider::valueChanged, this, &MainWindow::on_saturationSlider_move);
 }
 
 QPixmap MainWindow::rescaleImageByHeight(const QImage originalImage, int newHeight)
@@ -32,6 +35,9 @@ void MainWindow::on_loadButton_clicked()
     }
     currentImagePath = fileName;
     originalImage.load(fileName);
+    originalImage = originalImage.convertToFormat(QImage::Format_ARGB32);
+
+    this->viewImage = originalImage;
 
     // корипуем основную картинку
     // this->viewImage = QImage(originalImage)
@@ -41,11 +47,9 @@ void MainWindow::on_loadButton_clicked()
 
     scaleFactor = a / b; // сброс коэф. масштабирования
     // новая пиксель-мапа исходной картинки с высотой окна программы
-    QPixmap scaledPixmap = rescaleImageByHeight(originalImage,
+    QPixmap scaledPixmap = rescaleImageByHeight(viewImage,
                                                  ui->centralwidget->height());
-
     ui->image->setPixmap(scaledPixmap);
-    //ui->image->setFixedSize(scaledPixmap.size());
     ui->image->setAlignment(Qt::AlignCenter);
 
 
@@ -70,7 +74,7 @@ void MainWindow::wheelEvent(QWheelEvent *event)
     }
 
     // применение масштабирования
-    QPixmap scaledPixmap = rescaleImageByHeight(originalImage,
+    QPixmap scaledPixmap = rescaleImageByHeight(viewImage,
                                                  originalImage.height() * scaleFactor);
 
     // обновление QLabel
@@ -78,6 +82,84 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 
     updateInfo();
 }
+
+QImage MainWindow::applyEffects()
+{
+    for (auto it = this->layers.begin(); it != this->layers.end(); it++)
+    {
+        QImage layer = it.value().first;
+        float transparency = it.value().second;
+        this->viewImage = combiningImagesSameSize(viewImage, layer, transparency);
+    }
+    return this->viewImage;
+}
+
+void MainWindow::on_noiseSlider_move(int value)
+{
+    if (this->layers.contains("noise"))
+    {
+        this->layers.remove("noise");
+    }
+
+    if (this->noise.isNull())
+    {
+        this->noise = noiseGenerating();
+    }
+
+    float fvalue = static_cast<double>(value) / 100.0;
+    viewImage = combiningImagesSameSize(originalImage, noise, fvalue);
+    this->layers["noise"] = {viewImage, fvalue};
+
+    viewImage = applyEffects();
+
+    QPixmap scaledPixmap = rescaleImageByHeight(viewImage,
+                                                originalImage.height() * scaleFactor);
+    ui->image->setPixmap(scaledPixmap);
+}
+
+/*void MainWindow::on_saturationSlider_move(int value)
+{
+    if (this->layers.contains("saturation"))
+    {
+        this->layers.remove("saturation");
+    }
+
+    float fvalue = 2.0 * (static_cast<double>(value) / 100.0);
+
+    QImage saturationLayer = addSaturation(fvalue);
+
+    this->layers["saturation"] = {saturationLayer, fvalue};
+
+    viewImage = applyEffects();
+
+    QPixmap scaledPixmap = rescaleImageByHeight(viewImage,
+                                                originalImage.height() * scaleFactor);
+    ui->image->setPixmap(scaledPixmap);
+}
+
+QImage MainWindow::addSaturation(float k)
+{
+    int width = this->originalImage.width();
+    int height = this->originalImage.height();
+    QImage saturation = this->viewImage;
+    for (int i = 0; i < width; i++)
+    {
+        for (int j = 0; j < height; j++)
+        {
+            QColor color = saturation.pixelColor(i, j);
+            int h, s, l;
+            color.getHsl(&h, &s, &l);
+            s *= k;
+            if (s < 0)
+                s = 0;
+            if (s > 255)
+                s = 255;
+            color.setHsl(h, s, l);
+            saturation.setPixelColor(i, j, color);
+        }
+    }
+    return saturation;
+}*/
 
 QString MainWindow::getImageInfo()
 {
@@ -90,8 +172,27 @@ QString MainWindow::getImageInfo()
     return result;
 }
 
-void MainWindow::updateInfo() {
+void MainWindow::updateInfo()
+{
     ui->infoPlain->setPlainText(getImageInfo());
+}
+
+QImage MainWindow::noiseGenerating()
+{
+    int width = this->originalImage.width();
+    int height = this->originalImage.height();
+    QImage noise(width, height, QImage::Format_RGB32);
+
+    for (int i = 0; i < width; i++)
+    {
+        for (int j = 0; j < height; j++)
+        {
+            int RBG = QRandomGenerator::global()->bounded(256);
+            noise.setPixelColor(i, j, QColor::fromRgb(RBG, RBG, RBG));
+        }
+    }
+
+    return noise;
 }
 
 MainWindow::~MainWindow()
