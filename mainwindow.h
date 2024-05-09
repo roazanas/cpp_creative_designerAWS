@@ -26,7 +26,7 @@ public:
 private slots:
     void on_loadButton_clicked();
     void on_noiseSlider_move(int value);
-    //void on_saturationSlider_move(int value);
+    void on_saturationSlider_move(int value);
 
 private:
     Ui::MainWindow *ui;
@@ -47,7 +47,7 @@ private:
 
     void updateInfo();
 
-    //QImage addSaturation(float k);
+    QImage addSaturation(float k);
 
     QImage noiseGenerating();
 
