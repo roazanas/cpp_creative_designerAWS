@@ -28,6 +28,10 @@ void MainWindow::on_loadButton_clicked()
     scene = new QGraphicsScene(this);
     ui->image->setScene(scene);
 
+    // перемещаем слайдеры в первоначальное положение
+    ui->noiseSlider->setValue(0);
+    ui->saturationSlider->setValue(50);
+
     currentImagePath = fileName;
     originalImage.load(fileName);
     originalImage = originalImage.convertToFormat(QImage::Format_ARGB32);
@@ -67,17 +71,16 @@ void MainWindow::on_noiseSlider_actionTriggered(int action)
 void MainWindow::on_noiseSlider_sliderReleased()
 {
     int value = ui->noiseSlider->value();
+    float fvalue = static_cast<float>(value) / 100.0;
     if (this->layers.contains("noise"))
     {
-        this->layers.remove("noise");
+        this->layers["noise"] = {this->noise, fvalue};
     }
 
     if (this->noise.isNull())
     {
         this->noise = noiseGenerating();
     }
-
-    float fvalue = static_cast<float>(value) / 100.0;
 
     // затирает картинку на изначальную чтобы эффекты не стакались
     viewImage = originalImage;
@@ -98,32 +101,35 @@ void MainWindow::on_saturationSlider_actionTriggered(int action)
     switch (action)
     {
     case 3: case 4:
-        on_noiseSlider_sliderReleased();
+        on_saturationSlider_sliderReleased();
     }
 }
 
 void MainWindow::on_saturationSlider_sliderReleased()
 {
-    int value = ui->noiseSlider->value();
-    if (this->layers.contains("saturation"))
-    {
-        this->layers.remove("saturation");
-    }
-
+    int value = ui->saturationSlider->value();
     float fvalue = (static_cast<double>(value) / 100.0);
+    QImage temp;
+    QImage saturation;
 
     viewImage = originalImage;
-
     viewImage = applyEffects();
 
-    // 4 - это значит что можно сделать в 4 раза менее насыщенно либо в 4 раза более насыщенно
-    combiningImagesSameSize(viewImage, addSaturation(4), fvalue);
+    if (fvalue < 0.5)
+    {
+        saturation = addSaturation(fvalue + 0.5);
+        temp = combiningImagesSameSize(viewImage, saturation, 1 - fvalue);
+        this->layers["saturation"] = {saturation, 1 - fvalue};
+    }
+    else
+    {
+        saturation = addSaturation(fvalue + 0.5);
+        temp = combiningImagesSameSize(viewImage, saturation, fvalue);
+        this->layers["saturation"] = {saturation, fvalue};
+    }
 
-    this->layers["saturation"] = {addSaturation(4), fvalue};
 
-    viewImage = applyEffects();
-
-    QPixmap pixmap = QPixmap::fromImage(viewImage);
+    QPixmap pixmap = QPixmap::fromImage(temp);
     scene->addPixmap(pixmap);
 }
 
@@ -131,7 +137,7 @@ QImage MainWindow::addSaturation(float k)
 {
     int width = this->originalImage.width();
     int height = this->originalImage.height();
-    QImage saturation = this->viewImage;
+    QImage saturation = this->originalImage;
     for (int i = 0; i < width; i++)
     {
         for (int j = 0; j < height; j++)
