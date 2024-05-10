@@ -110,20 +110,18 @@ void MainWindow::on_saturationSlider_sliderReleased()
     int value = ui->saturationSlider->value();
     float fvalue = (static_cast<double>(value) / 100.0);
     QImage temp;
-    QImage saturation;
+    QImage saturation = addSaturation(fvalue + 0.5);
 
     viewImage = originalImage;
     viewImage = applyEffects();
 
     if (fvalue < 0.5)
     {
-        saturation = addSaturation(fvalue + 0.5);
         temp = combiningImagesSameSize(viewImage, saturation, 1 - fvalue);
         this->layers["saturation"] = {saturation, 1 - fvalue};
     }
     else
     {
-        saturation = addSaturation(fvalue + 0.5);
         temp = combiningImagesSameSize(viewImage, saturation, fvalue);
         this->layers["saturation"] = {saturation, fvalue};
     }
