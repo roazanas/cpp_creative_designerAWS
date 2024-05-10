@@ -10,14 +10,17 @@ CONFIG += c++17
 
 SOURCES += \
     customview.cpp \
+    info.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     customview.h \
+    info.h \
     mainwindow.h
 
 FORMS += \
+    info.ui \
     mainwindow.ui
 
 # Default rules for deployment.

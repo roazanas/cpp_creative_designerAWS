@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include <QRandomGenerator>
 #include <QGraphicsPixmapItem>
+#include "info.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -36,8 +37,11 @@ private slots:
     void on_saturationSlider_actionTriggered(int action);
 
     void onScaleChanged();
+    void on_info_triggered();
+
 private:
     Ui::MainWindow *ui;
+    Info* info;
     QGraphicsScene* scene;
 
     QMap<std::string, std::pair<QImage, float>> layers;

@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    info = new Info;
     scene = new QGraphicsScene(this);
     connect(ui->image, &CustomView::scaleChanged, this, &MainWindow::onScaleChanged);
 }
@@ -198,6 +199,13 @@ void MainWindow::onScaleChanged()
     if (this->currentImagePath != "")
         updateInfo();
 }
+
+void MainWindow::on_info_triggered()
+{
+    info->move(100,100);
+    info->show();
+}
+
 
 MainWindow::~MainWindow()
 {
