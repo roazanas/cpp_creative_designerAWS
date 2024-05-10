@@ -7,7 +7,8 @@
 #include <QColor>
 #include <QImage>
 #include <QFileDialog>
-// #include <iostream>
+#include <QRandomGenerator>
+#include <QGraphicsPixmapItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,23 +26,25 @@ public:
 
 private slots:
     void on_loadButton_clicked();
-    void on_noiseSlider_move(int value);
-    void on_saturationSlider_move(int value);
 
+    void on_noiseSlider_sliderReleased();
+
+    void on_saturationSlider_sliderReleased();
+
+    void on_noiseSlider_actionTriggered(int action);
+
+    void on_saturationSlider_actionTriggered(int action);
+
+    void onScaleChanged();
 private:
     Ui::MainWindow *ui;
-
+    QGraphicsScene* scene;
 
     QMap<std::string, std::pair<QImage, float>> layers;
     QImage noise;
     QImage originalImage;
     QImage viewImage;
     QString currentImagePath = "";
-    double scaleFactor;
-
-    QPixmap rescaleImageByHeight(const QImage originalImage, int newWidth);
-
-    void wheelEvent(QWheelEvent *event);
 
     QString getImageInfo();
 
@@ -72,6 +75,7 @@ private:
         return QColor::fromRgb(red, green, blue);
     }
 
+    // по какой-то причине изменяет image1 в процессе (см. на использование)
     QImage combiningImagesSameSize(QImage image1, QImage image2, float k = 0.5)
     {
         QImage finallyImage = image1;

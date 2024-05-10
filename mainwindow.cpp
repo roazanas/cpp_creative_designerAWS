@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QRandomGenerator>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -8,18 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connect(ui->noiseSlider, &QSlider::valueChanged, this, &MainWindow::on_noiseSlider_move);
-    connect(ui->saturationSlider, &QSlider::valueChanged, this, &MainWindow::on_saturationSlider_move);
-}
-
-QPixmap MainWindow::rescaleImageByHeight(const QImage originalImage, int newHeight)
-{
-    // коэф. который и изменяет размер
-    double k = static_cast<double>(originalImage.height()) / originalImage.width();
-    int newWidth = static_cast<int>(newHeight / k);
-
-    QPixmap newPixmap = QPixmap::fromImage(originalImage).scaled(newWidth, newHeight);
-    return newPixmap;
+    scene = new QGraphicsScene(this);
+    connect(ui->image, &CustomView::scaleChanged, this, &MainWindow::onScaleChanged);
 }
 
 void MainWindow::on_loadButton_clicked()
@@ -33,6 +22,12 @@ void MainWindow::on_loadButton_clicked()
     {
         return;
     }
+
+    // радикальные методы очистки, т.к. scene.clear() работает не полностью корректно
+    delete scene;
+    scene = new QGraphicsScene(this);
+    ui->image->setScene(scene);
+
     currentImagePath = fileName;
     originalImage.load(fileName);
     originalImage = originalImage.convertToFormat(QImage::Format_ARGB32);
@@ -41,48 +36,11 @@ void MainWindow::on_loadButton_clicked()
     this->layers.clear();
     this->noise = QImage();
 
-    // корипуем основную картинку
-    // this->viewImage = QImage(originalImage)
-
-    double a = ui->centralwidget->height();
-    double b = originalImage.height();
-
-    scaleFactor = a / b; // сброс коэф. масштабирования
-    // новая пиксель-мапа исходной картинки с высотой окна программы
-    QPixmap scaledPixmap = rescaleImageByHeight(viewImage,
-                                                 ui->centralwidget->height());
-    ui->image->setPixmap(scaledPixmap);
-    ui->image->setAlignment(Qt::AlignCenter);
-
+    QPixmap pixmap = QPixmap::fromImage(viewImage);
+    QGraphicsPixmapItem* pixmapItem = scene->addPixmap(pixmap);
+    ui->image->fitInView(pixmapItem, Qt::KeepAspectRatio);
 
     // отображаем информацию о картинке
-    updateInfo();
-}
-
-void MainWindow::wheelEvent(QWheelEvent *event)
-{
-    if (currentImagePath.isEmpty())
-    {
-        return;
-    }
-    // определение направления прокрутки
-    int delta = event->angleDelta().y();
-
-    // изменение scaleFactor
-    if (delta > 0) {
-        scaleFactor *= 1.05 ; // Увеличить
-    } else if (delta < 0) {
-        scaleFactor /= 1.05; // Уменьшить
-    }
-
-    // применение масштабирования
-    viewImage = applyEffects();
-    QPixmap scaledPixmap = rescaleImageByHeight(viewImage,
-                                                 originalImage.height() * scaleFactor);
-    viewImage = originalImage;
-    // обновление QLabel
-    ui->image->setPixmap(scaledPixmap);
-
     updateInfo();
 }
 
@@ -97,12 +55,22 @@ QImage MainWindow::applyEffects()
     return this->viewImage;
 }
 
-void MainWindow::on_noiseSlider_move(int value)
+void MainWindow::on_noiseSlider_actionTriggered(int action)
 {
-    //if (this->layers.contains("noise"))
-    //{
+    switch (action)
+    {
+    case 3: case 4:
+        on_noiseSlider_sliderReleased();
+    }
+}
+
+void MainWindow::on_noiseSlider_sliderReleased()
+{
+    int value = ui->noiseSlider->value();
+    if (this->layers.contains("noise"))
+    {
         this->layers.remove("noise");
-    //}
+    }
 
     if (this->noise.isNull())
     {
@@ -121,13 +89,22 @@ void MainWindow::on_noiseSlider_move(int value)
 
     this->layers["noise"] = {this->noise, fvalue};
 
-    QPixmap scaledPixmap = rescaleImageByHeight(temp,
-                                                originalImage.height() * scaleFactor);
-    ui->image->setPixmap(scaledPixmap);
+    QPixmap pixmap = QPixmap::fromImage(temp);
+    scene->addPixmap(pixmap);
 }
 
-void MainWindow::on_saturationSlider_move(int value)
+void MainWindow::on_saturationSlider_actionTriggered(int action)
 {
+    switch (action)
+    {
+    case 3: case 4:
+        on_noiseSlider_sliderReleased();
+    }
+}
+
+void MainWindow::on_saturationSlider_sliderReleased()
+{
+    int value = ui->noiseSlider->value();
     if (this->layers.contains("saturation"))
     {
         this->layers.remove("saturation");
@@ -140,15 +117,14 @@ void MainWindow::on_saturationSlider_move(int value)
     viewImage = applyEffects();
 
     // 4 - это значит что можно сделать в 4 раза менее насыщенно либо в 4 раза более насыщенно
-    QImage temp = combiningImagesSameSize(viewImage, addSaturation(4), fvalue);
+    combiningImagesSameSize(viewImage, addSaturation(4), fvalue);
 
     this->layers["saturation"] = {addSaturation(4), fvalue};
 
     viewImage = applyEffects();
 
-    QPixmap scaledPixmap = rescaleImageByHeight(temp,
-                                                originalImage.height() * scaleFactor);
-    ui->image->setPixmap(scaledPixmap);
+    QPixmap pixmap = QPixmap::fromImage(viewImage);
+    scene->addPixmap(pixmap);
 }
 
 QImage MainWindow::addSaturation(float k)
@@ -175,22 +151,6 @@ QImage MainWindow::addSaturation(float k)
     return saturation;
 }
 
-QString MainWindow::getImageInfo()
-{
-    QString result;
-    QStringList filePathArray = currentImagePath.split("/");
-    QString sizeString = QString("(%1 x %2)").arg(originalImage.width()).arg(originalImage.height());
-    result += "• Имя файла: \n\t" + filePathArray.last() + "\n\n";
-    result += "• Размеры изображения: \n\t" + sizeString + "\n\n";
-    result += "• Коэф. масштабирования: \n\t" + std::to_string(scaleFactor) + "\n\n";
-    return result;
-}
-
-void MainWindow::updateInfo()
-{
-    ui->infoPlain->setPlainText(getImageInfo());
-}
-
 QImage MainWindow::noiseGenerating()
 {
     int width = this->originalImage.width();
@@ -209,8 +169,28 @@ QImage MainWindow::noiseGenerating()
     return noise;
 }
 
+QString MainWindow::getImageInfo()
+{
+    QString result;
+    QStringList filePathArray = currentImagePath.split("/");
+    QString sizeString = QString("(%1 x %2)").arg(originalImage.width()).arg(originalImage.height());
+    result += "• Имя файла: \n\t" + filePathArray.last() + "\n\n";
+    result += "• Размеры изображения: \n\t" + sizeString + "\n\n";
+    result += ui->image->getScaleInfo() + "\n\n";
+    return result;
+}
+
+void MainWindow::updateInfo()
+{
+    ui->infoPlain->setPlainText(getImageInfo());
+}
+
+void MainWindow::onScaleChanged()
+{
+    updateInfo();
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-

@@ -15,7 +15,6 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -23,6 +22,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QWidget>
+#include <customview.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -32,12 +32,12 @@ public:
     QWidget *centralwidget;
     QHBoxLayout *horizontalLayout;
     QPlainTextEdit *infoPlain;
-    QLabel *image;
+    CustomView *image;
     QGridLayout *gridLayout;
-    QPushButton *pushButton_4;
-    QPushButton *pushButton_5;
-    QSlider *noiseSlider;
     QPushButton *pushButton_3;
+    QSlider *noiseSlider;
+    QPushButton *pushButton_5;
+    QPushButton *pushButton_4;
     QPushButton *loadButton;
     QSlider *saturationSlider;
     QMenuBar *menuBar;
@@ -76,71 +76,59 @@ public:
 
         horizontalLayout->addWidget(infoPlain);
 
-        image = new QLabel(centralwidget);
+        image = new CustomView(centralwidget);
         image->setObjectName("image");
-        QSizePolicy sizePolicy1(QSizePolicy::Policy::Ignored, QSizePolicy::Policy::Ignored);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(image->sizePolicy().hasHeightForWidth());
-        image->setSizePolicy(sizePolicy1);
-        image->setCursor(QCursor(Qt::CrossCursor));
-        image->setLayoutDirection(Qt::LeftToRight);
-        image->setFrameShape(QFrame::NoFrame);
-        image->setFrameShadow(QFrame::Plain);
-        image->setMidLineWidth(5);
-        image->setTextFormat(Qt::AutoText);
-        image->setScaledContents(false);
-        image->setAlignment(Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing);
-        image->setWordWrap(false);
+        image->viewport()->setProperty("cursor", QVariant(QCursor(Qt::ArrowCursor)));
 
         horizontalLayout->addWidget(image);
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName("gridLayout");
-        pushButton_4 = new QPushButton(centralwidget);
-        pushButton_4->setObjectName("pushButton_4");
-        QSizePolicy sizePolicy2(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(pushButton_4->sizePolicy().hasHeightForWidth());
-        pushButton_4->setSizePolicy(sizePolicy2);
-        pushButton_4->setMinimumSize(QSize(120, 120));
-        pushButton_4->setCheckable(false);
-
-        gridLayout->addWidget(pushButton_4, 4, 0, 1, 1);
-
-        pushButton_5 = new QPushButton(centralwidget);
-        pushButton_5->setObjectName("pushButton_5");
-        sizePolicy2.setHeightForWidth(pushButton_5->sizePolicy().hasHeightForWidth());
-        pushButton_5->setSizePolicy(sizePolicy2);
-        pushButton_5->setMinimumSize(QSize(120, 120));
-        pushButton_5->setCheckable(false);
-
-        gridLayout->addWidget(pushButton_5, 5, 0, 1, 1);
-
-        noiseSlider = new QSlider(centralwidget);
-        noiseSlider->setObjectName("noiseSlider");
-        sizePolicy2.setHeightForWidth(noiseSlider->sizePolicy().hasHeightForWidth());
-        noiseSlider->setSizePolicy(sizePolicy2);
-        noiseSlider->setMaximum(100);
-        noiseSlider->setPageStep(5);
-        noiseSlider->setOrientation(Qt::Horizontal);
-
-        gridLayout->addWidget(noiseSlider, 1, 0, 1, 1);
-
         pushButton_3 = new QPushButton(centralwidget);
         pushButton_3->setObjectName("pushButton_3");
-        sizePolicy2.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
-        pushButton_3->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy1(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
+        pushButton_3->setSizePolicy(sizePolicy1);
         pushButton_3->setMinimumSize(QSize(120, 120));
         pushButton_3->setCheckable(false);
 
         gridLayout->addWidget(pushButton_3, 3, 0, 1, 1);
 
+        noiseSlider = new QSlider(centralwidget);
+        noiseSlider->setObjectName("noiseSlider");
+        sizePolicy1.setHeightForWidth(noiseSlider->sizePolicy().hasHeightForWidth());
+        noiseSlider->setSizePolicy(sizePolicy1);
+        noiseSlider->setMinimumSize(QSize(120, 0));
+        noiseSlider->setMaximum(100);
+        noiseSlider->setPageStep(5);
+        noiseSlider->setOrientation(Qt::Horizontal);
+
+        gridLayout->addWidget(noiseSlider, 1, 0, 1, 1, Qt::AlignLeft);
+
+        pushButton_5 = new QPushButton(centralwidget);
+        pushButton_5->setObjectName("pushButton_5");
+        sizePolicy1.setHeightForWidth(pushButton_5->sizePolicy().hasHeightForWidth());
+        pushButton_5->setSizePolicy(sizePolicy1);
+        pushButton_5->setMinimumSize(QSize(120, 120));
+        pushButton_5->setCheckable(false);
+
+        gridLayout->addWidget(pushButton_5, 5, 0, 1, 1);
+
+        pushButton_4 = new QPushButton(centralwidget);
+        pushButton_4->setObjectName("pushButton_4");
+        sizePolicy1.setHeightForWidth(pushButton_4->sizePolicy().hasHeightForWidth());
+        pushButton_4->setSizePolicy(sizePolicy1);
+        pushButton_4->setMinimumSize(QSize(120, 120));
+        pushButton_4->setCheckable(false);
+
+        gridLayout->addWidget(pushButton_4, 4, 0, 1, 1);
+
         loadButton = new QPushButton(centralwidget);
         loadButton->setObjectName("loadButton");
-        sizePolicy2.setHeightForWidth(loadButton->sizePolicy().hasHeightForWidth());
-        loadButton->setSizePolicy(sizePolicy2);
+        sizePolicy1.setHeightForWidth(loadButton->sizePolicy().hasHeightForWidth());
+        loadButton->setSizePolicy(sizePolicy1);
         loadButton->setMinimumSize(QSize(120, 120));
         QIcon icon1;
         icon1.addFile(QString::fromUtf8("res/icon.svg"), QSize(), QIcon::Normal, QIcon::Off);
@@ -154,14 +142,16 @@ public:
 
         saturationSlider = new QSlider(centralwidget);
         saturationSlider->setObjectName("saturationSlider");
-        sizePolicy2.setHeightForWidth(saturationSlider->sizePolicy().hasHeightForWidth());
-        saturationSlider->setSizePolicy(sizePolicy2);
+        sizePolicy1.setHeightForWidth(saturationSlider->sizePolicy().hasHeightForWidth());
+        saturationSlider->setSizePolicy(sizePolicy1);
+        saturationSlider->setMinimumSize(QSize(120, 0));
         saturationSlider->setLayoutDirection(Qt::LeftToRight);
         saturationSlider->setAutoFillBackground(false);
         saturationSlider->setMaximum(100);
         saturationSlider->setValue(50);
         saturationSlider->setTracking(true);
         saturationSlider->setOrientation(Qt::Horizontal);
+        saturationSlider->setInvertedAppearance(false);
 
         gridLayout->addWidget(saturationSlider, 2, 0, 1, 1);
 
@@ -171,12 +161,13 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName("menuBar");
-        menuBar->setGeometry(QRect(0, 0, 800, 21));
+        menuBar->setGeometry(QRect(0, 0, 800, 25));
         menuSettings = new QMenu(menuBar);
         menuSettings->setObjectName("menuSettings");
         MainWindow->setMenuBar(menuBar);
 
         menuBar->addAction(menuSettings->menuAction());
+        menuSettings->addSeparator();
 
         retranslateUi(MainWindow);
 
@@ -191,10 +182,9 @@ public:
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Designer tool", nullptr));
         infoPlain->setPlainText(QString());
         infoPlain->setPlaceholderText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\320\265 \320\270\320\267\320\276\320\261\321\200\320\260\320\266\320\265\320\275\320\270\320\265, \320\275\320\260\320\266\320\260\320\262 \320\275\320\260 \320\261\320\276\320\273\321\214\321\210\321\203\321\216 \320\272\320\275\320\276\320\277\320\272\321\203 \320\262 \320\262\320\270\320\264\320\265 \320\270\320\272\320\276\320\275\320\272\320\270 \321\215\321\202\320\276\320\263\320\276 \320\277\321\200\320\270\320\273\320\276\320\266\320\265\320\275\320\270\321\217", nullptr));
-        image->setText(QString());
-        pushButton_4->setText(QCoreApplication::translate("MainWindow", "Tool", nullptr));
-        pushButton_5->setText(QCoreApplication::translate("MainWindow", "Tool", nullptr));
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "Tool", nullptr));
+        pushButton_5->setText(QCoreApplication::translate("MainWindow", "Tool", nullptr));
+        pushButton_4->setText(QCoreApplication::translate("MainWindow", "Tool", nullptr));
         loadButton->setText(QString());
 #if QT_CONFIG(shortcut)
         loadButton->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+O", nullptr));
