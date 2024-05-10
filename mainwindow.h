@@ -86,10 +86,15 @@ private:
         {
             for (int j = 0; j < height; j++)
             {
+                if (finallyImage.pixelColor(i, j).alpha() != 0)
                 finallyImage.setPixelColor(i, j,
                                      mediumColor(finallyImage.pixelColor(i,j) ,
                                                 image2.pixelColor(i,j), k)
                                      );
+                else
+                {
+                    finallyImage.setPixelColor(i, j, QColor::fromHsl(0,0,0,0));
+                }
             }
         }
         return finallyImage;

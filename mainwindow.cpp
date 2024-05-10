@@ -37,6 +37,7 @@ void MainWindow::on_loadButton_clicked()
     originalImage = originalImage.convertToFormat(QImage::Format_ARGB32);
 
     this->viewImage = originalImage;
+    this->viewImage = viewImage.convertToFormat(QImage::Format_ARGB32);
     this->layers.clear();
     this->noise = QImage();
 
@@ -108,26 +109,29 @@ void MainWindow::on_saturationSlider_actionTriggered(int action)
 void MainWindow::on_saturationSlider_sliderReleased()
 {
     int value = ui->saturationSlider->value();
-    float fvalue = (static_cast<double>(value) / 100.0);
+    float transperancy = (static_cast<double>(value) / 100.0);
+    float resultValueForSaturation = 2 * transperancy;
+
     QImage temp;
-    QImage saturation = addSaturation(fvalue + 0.5);
+    QImage saturation = addSaturation(resultValueForSaturation);
 
     viewImage = originalImage;
     viewImage = applyEffects();
 
-    if (fvalue < 0.5)
+    if (transperancy < 0.5)
     {
-        temp = combiningImagesSameSize(viewImage, saturation, 1 - fvalue);
-        this->layers["saturation"] = {saturation, 1 - fvalue};
+        temp = combiningImagesSameSize(viewImage, saturation, 1 - transperancy);
+        this->layers["saturation"] = {saturation, 1 - transperancy};
     }
     else
     {
-        temp = combiningImagesSameSize(viewImage, saturation, fvalue);
-        this->layers["saturation"] = {saturation, fvalue};
+        temp = combiningImagesSameSize(viewImage, saturation, transperancy);
+        this->layers["saturation"] = {saturation, transperancy};
     }
 
 
     QPixmap pixmap = QPixmap::fromImage(temp);
+    scene->clear();
     scene->addPixmap(pixmap);
 }
 
@@ -140,16 +144,16 @@ QImage MainWindow::addSaturation(float k)
     {
         for (int j = 0; j < height; j++)
         {
-            QColor color = saturation.pixelColor(i, j);
-            int h, s, l;
-            color.getHsl(&h, &s, &l);
+            QColor pixel = saturation.pixelColor(i, j);
+            int h, s, l, a;
+            pixel.getHsl(&h, &s, &l, &a);
             s *= k;
             if (s < 0)
                 s = 0;
             if (s > 255)
                 s = 255;
-            color.setHsl(h, s, l);
-            saturation.setPixelColor(i, j, color);
+            pixel.setHsl(h, s, l, a);
+            saturation.setPixel(i, j, pixel.rgba());
         }
     }
     return saturation;
@@ -159,7 +163,7 @@ QImage MainWindow::noiseGenerating()
 {
     int width = this->originalImage.width();
     int height = this->originalImage.height();
-    QImage noise(width, height, QImage::Format_RGB32);
+    QImage noise(width, height, QImage::Format_ARGB32);
 
     for (int i = 0; i < width; i++)
     {
@@ -191,7 +195,8 @@ void MainWindow::updateInfo()
 
 void MainWindow::onScaleChanged()
 {
-    updateInfo();
+    if (this->currentImagePath != "")
+        updateInfo();
 }
 
 MainWindow::~MainWindow()
