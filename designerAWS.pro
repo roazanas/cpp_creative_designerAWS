@@ -15,6 +15,7 @@ SOURCES += \
     info.cpp \
     main.cpp \
     mainwindow.cpp \
+    noisegenerator.cpp \
     serviceFunctions.cpp \
     sliderEventsMainWindow.cpp
 
@@ -22,6 +23,7 @@ HEADERS += \
     customview.h \
     info.h \
     mainwindow.h \
+    noisegenerator.h \
     sliderEventsMainWindow.h
 
 FORMS += \

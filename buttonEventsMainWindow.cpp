@@ -22,7 +22,8 @@ void MainWindow::on_invertButton_clicked()
 
     if (this->invertationFlag)
     {
-        this->effects["invertation"] = {transperancy};
+        this->effects["invertation"].first = &MainWindow::applyRgbSwap;
+        this->effects["invertation"].second = transperancy;
     }
 
     temp = applyEffects();

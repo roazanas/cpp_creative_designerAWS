@@ -65,6 +65,12 @@
             <height>0</height>
            </size>
           </property>
+          <property name="documentTitle">
+           <string/>
+          </property>
+          <property name="lineWrapMode">
+           <enum>QPlainTextEdit::WidgetWidth</enum>
+          </property>
           <property name="readOnly">
            <bool>true</bool>
           </property>
@@ -74,8 +80,17 @@
           <property name="textInteractionFlags">
            <set>Qt::NoTextInteraction</set>
           </property>
+          <property name="maximumBlockCount">
+           <number>0</number>
+          </property>
+          <property name="backgroundVisible">
+           <bool>false</bool>
+          </property>
+          <property name="centerOnScroll">
+           <bool>false</bool>
+          </property>
           <property name="placeholderText">
-           <string>Загрузите изображение, нажав на кнопку в виде иконки этого приложения</string>
+           <string>Upload image by pressing icon button</string>
           </property>
          </widget>
         </item>
@@ -164,15 +179,15 @@
         <item>
          <widget class="QPushButton" name="loadButton">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+           <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>90</width>
-            <height>45</height>
+            <width>50</width>
+            <height>50</height>
            </size>
           </property>
           <property name="acceptDrops">
@@ -190,8 +205,8 @@
           </property>
           <property name="iconSize">
            <size>
-            <width>50</width>
-            <height>35</height>
+            <width>40</width>
+            <height>40</height>
            </size>
           </property>
           <property name="shortcut">
@@ -217,15 +232,15 @@
            <bool>false</bool>
           </property>
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+           <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>90</width>
-            <height>45</height>
+            <width>50</width>
+            <height>50</height>
            </size>
           </property>
           <property name="toolTip">
@@ -240,9 +255,15 @@
           </property>
           <property name="iconSize">
            <size>
-            <width>50</width>
+            <width>40</width>
             <height>40</height>
            </size>
+          </property>
+          <property name="default">
+           <bool>false</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -294,7 +315,7 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="noiseLabel">
            <property name="text">
             <string>Noise</string>
            </property>
@@ -320,7 +341,16 @@
              <height>0</height>
             </size>
            </property>
+           <property name="contextMenuPolicy">
+            <enum>Qt::DefaultContextMenu</enum>
+           </property>
            <property name="toolTip">
+            <string/>
+           </property>
+           <property name="toolTipDuration">
+            <number>-1</number>
+           </property>
+           <property name="whatsThis">
             <string/>
            </property>
            <property name="maximum">
@@ -338,7 +368,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="saturationLabel">
            <property name="text">
             <string>Saturation</string>
            </property>
@@ -366,6 +396,9 @@
            </property>
            <property name="toolTip">
             <string/>
+           </property>
+           <property name="toolTipDuration">
+            <number>-1</number>
            </property>
            <property name="statusTip">
             <string/>
@@ -412,8 +445,8 @@
           </widget>
          </item>
         </layout>
-        <zorder>label</zorder>
-        <zorder>label_2</zorder>
+        <zorder>noiseLabel</zorder>
+        <zorder>saturationLabel</zorder>
         <zorder>noiseSlider</zorder>
         <zorder>saturationSlider</zorder>
        </widget>

@@ -17,9 +17,9 @@ QImage MainWindow::applyEffects()
     for (auto it = this->effects.begin(); it != this->effects.end(); it++)
     {
         std::string effect = it.key();
-        double transparency = it.value();
-        if (effect == "saturation") {this->viewImage = addSaturation(transparency);}
-        if (effect == "invertation") {this->viewImage = viewImage.rgbSwapped();}
+        EffectFunction func = it.value().first;
+        double transparency = it.value().second;
+        this->viewImage = (this->*func)(this->viewImage, transparency);
     }
     return this->viewImage;
 }

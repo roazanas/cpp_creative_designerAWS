@@ -27,8 +27,8 @@ void MainWindow::loadImage(QString fileName)
     // перемещаем слайдеры в первоначальное положение
     ui->noiseSlider->setValue(0);
     ui->saturationSlider->setValue(ui->saturationSlider->maximum()/2);
-    ui->noiseSlider->setToolTip(QString("%1%").arg(0));
-    ui->saturationSlider->setToolTip(QString("%1%").arg(ui->saturationSlider->maximum()/2));
+    ui->noiseLabel->setText("Noise ("+QString("%1%").arg(0)+")");
+    ui->saturationLabel->setText("Saturation ("+QString("%1%").arg(ui->saturationSlider->maximum()/2)+")");
 
     currentImagePath = fileName;
     originalImage.load(fileName);
@@ -103,3 +103,4 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+

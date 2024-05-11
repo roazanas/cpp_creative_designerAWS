@@ -28,8 +28,6 @@ void MainWindow::on_noiseSlider_sliderReleased()
     scene->clear();
     scene->addPixmap(pixmap);
 
-    ui->noiseSlider->setToolTip(QString("%1%").arg(value));
-
     ui->activityLog->addItem("Noise level - "+QString("%1%").arg(value));
     setTimeToLastItem();
 }
@@ -45,7 +43,7 @@ void MainWindow::on_saturationSlider_sliderReleased()
 
     viewImage = applyLayers();
 
-    this->effects["saturation"] = {transperancy};
+    this->effects["saturation"] = {&MainWindow::addSaturation, transperancy};
 
     temp = applyEffects();
 
@@ -53,8 +51,17 @@ void MainWindow::on_saturationSlider_sliderReleased()
     scene->clear();
     scene->addPixmap(pixmap);
 
-    ui->saturationSlider->setToolTip(QString("%1%").arg(value));
-
     ui->activityLog->addItem("Saturation level - "+QString("%1%").arg(value));
     setTimeToLastItem();
 }
+
+void MainWindow::on_noiseSlider_valueChanged(int value)
+{
+    ui->noiseLabel->setText("Noise ("+QString("%1%").arg(value)+")");
+}
+
+void MainWindow::on_saturationSlider_valueChanged(int value)
+{
+    ui->saturationLabel->setText("Saturation ("+QString("%1%").arg(value)+")");
+}
+

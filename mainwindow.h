@@ -13,6 +13,7 @@
 #include <QMimeData>
 #include <QListWidget>
 #include <QDateTime>
+#include <QThread>
 #include "info.h"
 
 QT_BEGIN_NAMESPACE
@@ -44,13 +45,21 @@ private slots:
     void on_info_triggered();
 
     void on_invertButton_clicked();
+
+    void on_noiseSlider_valueChanged(int value);
+
+    void on_saturationSlider_valueChanged(int value);
 private:
     Ui::MainWindow *ui;
     Info* info;
     QGraphicsScene* scene;
 
+
+    // Определение типа указателя на функцию для эффектов
+    using EffectFunction = QImage (MainWindow::*)(QImage &, double);
+
     QMap<std::string, std::pair<QImage, double>> layers;
-    QMap<std::string, double> effects;
+    QMap<std::string, std::pair<EffectFunction, double>> effects;
 
     bool invertationFlag;
     QImage noise;
@@ -62,7 +71,7 @@ private:
 
     void updateInfo();
 
-    QImage addSaturation(double k);
+    QImage addSaturation(QImage &image, double k);
 
     QImage noiseGenerating();
 
@@ -75,5 +84,7 @@ private:
     QColor mediumColor(QColor colorRGB1, QColor colorRGB2, double k);
 
     QImage combiningImagesSameSize(const QImage &image1, const QImage &image2, double k = 0.5);
+
+    QImage applyRgbSwap(QImage& image, double /*unused*/) {return image.rgbSwapped();}
 };
 #endif // MAINWINDOW_H
