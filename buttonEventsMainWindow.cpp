@@ -3,8 +3,6 @@
 
 void MainWindow::on_invertButton_clicked()
 {
-
-    // пока не работает корректно
     if (this->effects.contains("invertation"))
     {
         this->invertationFlag = false;
@@ -32,6 +30,8 @@ void MainWindow::on_invertButton_clicked()
     QPixmap pixmap = QPixmap::fromImage(temp);
     scene->clear();
     scene->addPixmap(pixmap);
+
+    ui->activityLog->addItem("RGB swapped");
 }
 
 void MainWindow::on_loadButton_clicked()

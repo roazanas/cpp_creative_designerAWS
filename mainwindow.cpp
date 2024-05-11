@@ -45,6 +45,8 @@ void MainWindow::loadImage(QString fileName)
 
     // отображаем информацию об изображении
     updateInfo();
+
+    ui->activityLog->addItem("Opened: "+fileName);
 }
 
 QString MainWindow::getImageInfo()

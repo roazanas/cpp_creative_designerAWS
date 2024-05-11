@@ -16,6 +16,7 @@
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -39,7 +40,9 @@ public:
     QHBoxLayout *horizontalLayout;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer_3;
+    QVBoxLayout *verticalLayout_3;
     QPlainTextEdit *infoPlain;
+    QListWidget *activityLog;
     QSpacerItem *horizontalSpacer_2;
     CustomView *image;
     QSpacerItem *horizontalSpacer;
@@ -93,6 +96,8 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer_3);
 
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setObjectName("verticalLayout_3");
         infoPlain = new QPlainTextEdit(centralwidget);
         infoPlain->setObjectName("infoPlain");
         QSizePolicy sizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Minimum);
@@ -104,7 +109,19 @@ public:
         infoPlain->setReadOnly(true);
         infoPlain->setTextInteractionFlags(Qt::NoTextInteraction);
 
-        horizontalLayout_2->addWidget(infoPlain);
+        verticalLayout_3->addWidget(infoPlain);
+
+        activityLog = new QListWidget(centralwidget);
+        activityLog->setObjectName("activityLog");
+        sizePolicy.setHeightForWidth(activityLog->sizePolicy().hasHeightForWidth());
+        activityLog->setSizePolicy(sizePolicy);
+        activityLog->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        activityLog->setAlternatingRowColors(true);
+
+        verticalLayout_3->addWidget(activityLog);
+
+
+        horizontalLayout_2->addLayout(verticalLayout_3);
 
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Minimum);
 

@@ -46,6 +46,8 @@ void MainWindow::on_noiseSlider_sliderReleased()
     scene->addPixmap(pixmap);
 
     ui->noiseSlider->setToolTip(QString("%1%").arg(value));
+
+    ui->activityLog->addItem("Noise level - "+QString("%1%").arg(value));
 }
 
 void MainWindow::on_saturationSlider_sliderReleased()
@@ -68,4 +70,6 @@ void MainWindow::on_saturationSlider_sliderReleased()
     scene->addPixmap(pixmap);
 
     ui->saturationSlider->setToolTip(QString("%1%").arg(value));
+
+    ui->activityLog->addItem("Saturation level - "+QString("%1%").arg(value));
 }
