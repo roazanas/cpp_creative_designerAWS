@@ -10,19 +10,14 @@ MainWindow::MainWindow(QWidget *parent)
     info = new Info;
     scene = new QGraphicsScene(this);
     connect(ui->image, &CustomView::scaleChanged, this, &MainWindow::onScaleChanged);
+
+    setAcceptDrops(true);
 }
 
-void MainWindow::on_loadButton_clicked()
+void MainWindow::loadImage(QString fileName)
 {
-    // даёт юзеру выбрать картинку и возвращает её полный путь
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Выберите картинку"),
-                                                    "/",
-                                                    tr("Картинки (*.png *.jpg *.jpeg)"));
-    ui->loadButton->setChecked(false);
-    if (fileName.isEmpty())
-    {
-        return;
-    }
+    ui->groupBox->setEnabled(1);
+    ui->groupBox_2->setEnabled(1);
 
     // радикальные методы очистки, т.к. scene.clear() работает не полностью корректно
     delete scene;
@@ -31,13 +26,15 @@ void MainWindow::on_loadButton_clicked()
 
     // перемещаем слайдеры в первоначальное положение
     ui->noiseSlider->setValue(0);
-    ui->saturationSlider->setValue(50);
+    ui->saturationSlider->setValue(ui->saturationSlider->maximum()/2);
+    ui->noiseSlider->setToolTip(QString("%1%").arg(0));
+    ui->saturationSlider->setToolTip(QString("%1%").arg(ui->saturationSlider->maximum()/2));
 
     currentImagePath = fileName;
     originalImage.load(fileName);
     originalImage = originalImage.convertToFormat(QImage::Format_ARGB32);
 
-    this->viewImage = originalImage;
+    this->viewImage = originalImage.copy();
     this->viewImage = viewImage.convertToFormat(QImage::Format_ARGB32);
     this->layers.clear();
     this->noise = QImage();
@@ -46,8 +43,23 @@ void MainWindow::on_loadButton_clicked()
     QGraphicsPixmapItem* pixmapItem = scene->addPixmap(pixmap);
     ui->image->fitInView(pixmapItem, Qt::KeepAspectRatio);
 
-    // отображаем информацию о картинке
+    // отображаем информацию об изображении
     updateInfo();
+}
+
+void MainWindow::on_loadButton_clicked()
+{
+    // даёт юзеру выбрать изображение и возвращает его полный путь
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Выберите изображение"),
+                                                    "/",
+                                                    tr("Изображения (*.png *.jpg *.jpeg)"));
+    ui->loadButton->setChecked(false);
+    if (fileName.isEmpty())
+    {
+        return;
+    }
+
+    loadImage(fileName);
 }
 
 QImage MainWindow::applyLayers()
@@ -55,7 +67,7 @@ QImage MainWindow::applyLayers()
     for (auto it = this->layers.begin(); it != this->layers.end(); it++)
     {
         QImage layer = it.value().first;
-        float transparency = it.value().second;
+        double transparency = it.value().second;
         this->viewImage = combiningImagesSameSize(viewImage, layer, transparency);
     }
     return this->viewImage;
@@ -65,9 +77,10 @@ QImage MainWindow::applyEffects()
 {
     for (auto it = this->effects.begin(); it != this->effects.end(); it++)
     {
-        QImage effect = it.value().first;
-        float transparency = it.value().second;
-        this->viewImage = combiningImagesSameSize(viewImage, effect, transparency);
+        std::string effect = it.key();
+        double transparency = it.value();
+        if (effect == "saturation") {this->viewImage = addSaturation(transparency);}
+        if (effect == "invertation") {this->viewImage = viewImage.rgbSwapped();}
     }
     return this->viewImage;
 }
@@ -84,33 +97,30 @@ void MainWindow::on_noiseSlider_actionTriggered(int action)
 void MainWindow::on_noiseSlider_sliderReleased()
 {
     int value = ui->noiseSlider->value();
-    float fvalue = static_cast<float>(value) / 100.0;
-    if (this->layers.contains("noise"))
-    {
-        this->layers["noise"] = {this->noise, fvalue};
-    }
+    double transperancy = static_cast<double>(value) / 100.0;
 
     if (this->noise.isNull())
     {
         this->noise = noiseGenerating();
     }
 
+    this->layers["noise"] = {this->noise, transperancy};
+
     // затирает картинку на изначальную чтобы эффекты не стакались
-    viewImage = originalImage;
+    viewImage = originalImage.copy();
 
     // сначала применяет все существующие эффекты, потом уже применяет и сохраняет этот
-
     viewImage = applyLayers();
 
-    QImage temp = combiningImagesSameSize(viewImage, noise, fvalue);
+    QImage temp = combiningImagesSameSize(viewImage, noise, transperancy);
 
     temp = applyEffects();
-
-    this->layers["noise"] = {this->noise, fvalue};
 
     QPixmap pixmap = QPixmap::fromImage(temp);
     scene->clear();
     scene->addPixmap(pixmap);
+
+    ui->noiseSlider->setToolTip(QString("%1%").arg(value));
 }
 
 void MainWindow::on_saturationSlider_actionTriggered(int action)
@@ -125,40 +135,30 @@ void MainWindow::on_saturationSlider_actionTriggered(int action)
 void MainWindow::on_saturationSlider_sliderReleased()
 {
     int value = ui->saturationSlider->value();
-    float transperancy = (static_cast<double>(value) / 100.0);
-    float resultValueForSaturation = 2 * transperancy;
+    double transperancy = (static_cast<double>(value) / 100.0);
 
     QImage temp;
-    QImage saturation = addSaturation(resultValueForSaturation);
 
-    viewImage = originalImage;
+    viewImage = originalImage.copy();
 
     viewImage = applyLayers();
 
+    this->effects["saturation"] = {transperancy};
+
     temp = applyEffects();
-
-    if (transperancy < 0.5)
-    {
-        temp = combiningImagesSameSize(viewImage, saturation, 1 - transperancy);
-        this->effects["saturation"] = {saturation, 1 - transperancy};
-    }
-    else
-    {
-        temp = combiningImagesSameSize(viewImage, saturation, transperancy);
-        this->effects["saturation"] = {saturation, transperancy};
-    }
-
 
     QPixmap pixmap = QPixmap::fromImage(temp);
     scene->clear();
     scene->addPixmap(pixmap);
+
+    ui->saturationSlider->setToolTip(QString("%1%").arg(value));
 }
 
-QImage MainWindow::addSaturation(float k)
+QImage MainWindow::addSaturation(double k)
 {
     int width = this->originalImage.width();
     int height = this->originalImage.height();
-    QImage saturation = this->originalImage;
+    QImage saturation = this->viewImage;
     for (int i = 0; i < width; i++)
     {
         for (int j = 0; j < height; j++)
@@ -218,14 +218,66 @@ void MainWindow::onScaleChanged()
         updateInfo();
 }
 
+void MainWindow::on_invertButton_clicked()
+{
+
+    // пока не работает корректно
+    if (this->effects.contains("invertation"))
+    {
+        this->effects.remove("invertation");
+        QPixmap pixmap = QPixmap::fromImage(viewImage);
+        scene->clear();
+        scene->addPixmap(pixmap);
+        return;
+    }
+
+
+    double transperancy = 1.0;
+
+    QImage temp;
+
+    viewImage = originalImage.copy();
+
+    viewImage = applyLayers();
+
+    this->effects["invertation"] = {transperancy};
+
+    temp = applyEffects();
+
+    QPixmap pixmap = QPixmap::fromImage(temp);
+    scene->clear();
+    scene->addPixmap(pixmap);
+}
+
 void MainWindow::on_info_triggered()
 {
     info->move(100,100);
     info->show();
 }
 
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+    }
+}
+
+void MainWindow::dropEvent(QDropEvent *event)
+{
+    // Получаем URL из события
+    QList<QUrl> urls = event->mimeData()->urls();
+    if (urls.isEmpty()) {
+        return;
+    }
+
+    // Получаем путь к файлу
+    QString fileName = urls.first().toLocalFile();
+
+    loadImage(fileName);
+}
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+

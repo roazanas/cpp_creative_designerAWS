@@ -9,6 +9,8 @@
 #include <QFileDialog>
 #include <QRandomGenerator>
 #include <QGraphicsPixmapItem>
+#include <QToolTip>
+#include <QMimeData>
 #include "info.h"
 
 QT_BEGIN_NAMESPACE
@@ -25,6 +27,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void loadImage(QString fileName);
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
 private slots:
     void on_loadButton_clicked();
 
@@ -37,15 +42,18 @@ private slots:
     void on_saturationSlider_actionTriggered(int action);
 
     void onScaleChanged();
+
     void on_info_triggered();
+
+    void on_invertButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     Info* info;
     QGraphicsScene* scene;
 
-    QMap<std::string, std::pair<QImage, float>> layers;
-    QMap<std::string, std::pair<QImage, float>> effects;
+    QMap<std::string, std::pair<QImage, double>> layers;
+    QMap<std::string, double> effects;
 
     QImage noise;
     QImage originalImage;
@@ -56,7 +64,7 @@ private:
 
     void updateInfo();
 
-    QImage addSaturation(float k);
+    QImage addSaturation(double k);
 
     QImage noiseGenerating();
 
@@ -65,7 +73,7 @@ private:
     QImage applyEffects();
 
 
-    QColor mediumColor(QColor colorRGB1, QColor colorRGB2, float k)
+    QColor mediumColor(QColor colorRGB1, QColor colorRGB2, double k)
     {
         if (k == 0)
         {
@@ -83,10 +91,9 @@ private:
         return QColor::fromRgb(red, green, blue);
     }
 
-    // по какой-то причине изменяет image1 в процессе (см. на использование)
-    QImage combiningImagesSameSize(QImage image1, QImage image2, float k = 0.5)
+    QImage combiningImagesSameSize(const QImage& image1, const QImage& image2, double k = 0.5)
     {
-        QImage finallyImage = image1;
+        QImage finallyImage = image1.copy();
         int width = image1.width();
         int height = image1.height();
 

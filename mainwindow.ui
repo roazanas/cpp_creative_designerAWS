@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>1043</width>
     <height>800</height>
    </rect>
   </property>
@@ -72,11 +72,8 @@
         <property name="textInteractionFlags">
          <set>Qt::NoTextInteraction</set>
         </property>
-        <property name="backgroundVisible">
-         <bool>false</bool>
-        </property>
         <property name="placeholderText">
-         <string>Загрузите изображение, нажав на большую кнопку в виде иконки этого приложения</string>
+         <string>Загрузите изображение, нажав на кнопку в виде иконки этого приложения</string>
         </property>
        </widget>
       </item>
@@ -140,9 +137,62 @@
        </spacer>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox">
+       <widget class="QPushButton" name="loadButton">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>185</width>
+          <height>45</height>
+         </size>
+        </property>
+        <property name="acceptDrops">
+         <bool>true</bool>
+        </property>
+        <property name="toolTip">
+         <string>Загрузить изображения</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>res/icon.svg</normaloff>res/icon.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>50</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+O</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -169,7 +219,10 @@
          <bool>false</bool>
         </property>
         <property name="title">
-         <string>             Sliders</string>
+         <string>Sliders</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
         <property name="flat">
          <bool>false</bool>
@@ -178,6 +231,19 @@
          <bool>false</bool>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Noise</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <property name="textInteractionFlags">
+            <set>Qt::NoTextInteraction</set>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QSlider" name="noiseSlider">
            <property name="sizePolicy">
@@ -192,14 +258,33 @@
              <height>0</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string/>
+           </property>
            <property name="maximum">
-            <number>100</number>
+            <number>50</number>
+           </property>
+           <property name="singleStep">
+            <number>0</number>
            </property>
            <property name="pageStep">
-            <number>5</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Saturation</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+           <property name="textInteractionFlags">
+            <set>Qt::NoTextInteraction</set>
            </property>
           </widget>
          </item>
@@ -217,6 +302,21 @@
              <height>0</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="statusTip">
+            <string/>
+           </property>
+           <property name="whatsThis">
+            <string/>
+           </property>
+           <property name="accessibleName">
+            <string/>
+           </property>
+           <property name="accessibleDescription">
+            <string/>
+           </property>
            <property name="layoutDirection">
             <enum>Qt::LeftToRight</enum>
            </property>
@@ -224,10 +324,19 @@
             <bool>false</bool>
            </property>
            <property name="maximum">
-            <number>100</number>
+            <number>200</number>
+           </property>
+           <property name="singleStep">
+            <number>0</number>
+           </property>
+           <property name="pageStep">
+            <number>0</number>
            </property>
            <property name="value">
-            <number>50</number>
+            <number>100</number>
+           </property>
+           <property name="sliderPosition">
+            <number>100</number>
            </property>
            <property name="tracking">
             <bool>true</bool>
@@ -241,12 +350,19 @@
           </widget>
          </item>
         </layout>
+        <zorder>label</zorder>
+        <zorder>label_2</zorder>
+        <zorder>noiseSlider</zorder>
+        <zorder>saturationSlider</zorder>
        </widget>
       </item>
       <item>
        <widget class="QGroupBox" name="groupBox_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -264,11 +380,14 @@
          <bool>false</bool>
         </property>
         <property name="title">
-         <string>              Tools</string>
+         <string>Tools</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
-          <widget class="QPushButton" name="loadButton">
+          <widget class="QPushButton" name="invertButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -281,52 +400,11 @@
              <height>45</height>
             </size>
            </property>
-           <property name="text">
+           <property name="toolTip">
             <string/>
            </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>res/icon.svg</normaloff>res/icon.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>50</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+O</string>
-           </property>
-           <property name="checkable">
-            <bool>true</bool>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
-           </property>
-           <property name="default">
-            <bool>false</bool>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_4">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>155</width>
-             <height>45</height>
-            </size>
-           </property>
            <property name="text">
-            <string>Tool</string>
+            <string>Swap RGB</string>
            </property>
            <property name="checkable">
             <bool>false</bool>
@@ -346,6 +424,9 @@
              <width>155</width>
              <height>45</height>
             </size>
+           </property>
+           <property name="toolTip">
+            <string/>
            </property>
            <property name="text">
             <string>Tool</string>
@@ -369,6 +450,9 @@
              <height>45</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string/>
+           </property>
            <property name="text">
             <string>Tool</string>
            </property>
@@ -378,6 +462,9 @@
           </widget>
          </item>
         </layout>
+        <zorder>pushButton_5</zorder>
+        <zorder>pushButton_3</zorder>
+        <zorder>invertButton</zorder>
        </widget>
       </item>
       <item>
@@ -418,8 +505,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>21</height>
+     <width>1043</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings">

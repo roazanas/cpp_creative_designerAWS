@@ -15,6 +15,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -44,14 +45,16 @@ public:
     QSpacerItem *horizontalSpacer;
     QVBoxLayout *verticalLayout;
     QSpacerItem *verticalSpacer;
+    QPushButton *loadButton;
     QGroupBox *groupBox;
     QVBoxLayout *verticalLayout_4;
+    QLabel *label;
     QSlider *noiseSlider;
+    QLabel *label_2;
     QSlider *saturationSlider;
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout_5;
-    QPushButton *loadButton;
-    QPushButton *pushButton_4;
+    QPushButton *invertButton;
     QPushButton *pushButton_5;
     QPushButton *pushButton_3;
     QSpacerItem *verticalSpacer_2;
@@ -63,7 +66,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(800, 800);
+        MainWindow->resize(1043, 800);
         MainWindow->setMinimumSize(QSize(800, 800));
         MainWindow->setMaximumSize(QSize(16777215, 16777215));
         QIcon icon;
@@ -100,7 +103,6 @@ public:
         infoPlain->setMinimumSize(QSize(0, 0));
         infoPlain->setReadOnly(true);
         infoPlain->setTextInteractionFlags(Qt::NoTextInteraction);
-        infoPlain->setBackgroundVisible(false);
 
         horizontalLayout_2->addWidget(infoPlain);
 
@@ -128,11 +130,28 @@ public:
 
         verticalLayout->addItem(verticalSpacer);
 
-        groupBox = new QGroupBox(centralwidget);
-        groupBox->setObjectName("groupBox");
-        QSizePolicy sizePolicy1(QSizePolicy::Policy::Ignored, QSizePolicy::Policy::Fixed);
+        loadButton = new QPushButton(centralwidget);
+        loadButton->setObjectName("loadButton");
+        QSizePolicy sizePolicy1(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(loadButton->sizePolicy().hasHeightForWidth());
+        loadButton->setSizePolicy(sizePolicy1);
+        loadButton->setMinimumSize(QSize(185, 45));
+        loadButton->setAcceptDrops(true);
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8("res/icon.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        loadButton->setIcon(icon1);
+        loadButton->setIconSize(QSize(50, 40));
+        loadButton->setCheckable(true);
+        loadButton->setAutoDefault(false);
+        loadButton->setFlat(false);
+
+        verticalLayout->addWidget(loadButton);
+
+        groupBox = new QGroupBox(centralwidget);
+        groupBox->setObjectName("groupBox");
+        groupBox->setEnabled(false);
         sizePolicy1.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
         groupBox->setSizePolicy(sizePolicy1);
         QFont font;
@@ -144,10 +163,18 @@ public:
         groupBox->setAcceptDrops(false);
         groupBox->setLayoutDirection(Qt::LeftToRight);
         groupBox->setAutoFillBackground(false);
+        groupBox->setAlignment(Qt::AlignCenter);
         groupBox->setFlat(false);
         groupBox->setCheckable(false);
         verticalLayout_4 = new QVBoxLayout(groupBox);
         verticalLayout_4->setObjectName("verticalLayout_4");
+        label = new QLabel(groupBox);
+        label->setObjectName("label");
+        label->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        label->setTextInteractionFlags(Qt::NoTextInteraction);
+
+        verticalLayout_4->addWidget(label);
+
         noiseSlider = new QSlider(groupBox);
         noiseSlider->setObjectName("noiseSlider");
         QSizePolicy sizePolicy2(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Fixed);
@@ -156,11 +183,19 @@ public:
         sizePolicy2.setHeightForWidth(noiseSlider->sizePolicy().hasHeightForWidth());
         noiseSlider->setSizePolicy(sizePolicy2);
         noiseSlider->setMinimumSize(QSize(120, 0));
-        noiseSlider->setMaximum(100);
-        noiseSlider->setPageStep(5);
+        noiseSlider->setMaximum(50);
+        noiseSlider->setSingleStep(0);
+        noiseSlider->setPageStep(0);
         noiseSlider->setOrientation(Qt::Horizontal);
 
         verticalLayout_4->addWidget(noiseSlider);
+
+        label_2 = new QLabel(groupBox);
+        label_2->setObjectName("label_2");
+        label_2->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        label_2->setTextInteractionFlags(Qt::NoTextInteraction);
+
+        verticalLayout_4->addWidget(label_2);
 
         saturationSlider = new QSlider(groupBox);
         saturationSlider->setObjectName("saturationSlider");
@@ -169,60 +204,51 @@ public:
         saturationSlider->setMinimumSize(QSize(120, 0));
         saturationSlider->setLayoutDirection(Qt::LeftToRight);
         saturationSlider->setAutoFillBackground(false);
-        saturationSlider->setMaximum(100);
-        saturationSlider->setValue(50);
+        saturationSlider->setMaximum(200);
+        saturationSlider->setSingleStep(0);
+        saturationSlider->setPageStep(0);
+        saturationSlider->setValue(100);
+        saturationSlider->setSliderPosition(100);
         saturationSlider->setTracking(true);
         saturationSlider->setOrientation(Qt::Horizontal);
         saturationSlider->setInvertedAppearance(false);
 
         verticalLayout_4->addWidget(saturationSlider);
 
+        label->raise();
+        label_2->raise();
+        noiseSlider->raise();
+        saturationSlider->raise();
 
         verticalLayout->addWidget(groupBox);
 
         groupBox_2 = new QGroupBox(centralwidget);
         groupBox_2->setObjectName("groupBox_2");
-        QSizePolicy sizePolicy3(QSizePolicy::Policy::Maximum, QSizePolicy::Policy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(groupBox_2->sizePolicy().hasHeightForWidth());
-        groupBox_2->setSizePolicy(sizePolicy3);
+        groupBox_2->setEnabled(false);
+        sizePolicy1.setHeightForWidth(groupBox_2->sizePolicy().hasHeightForWidth());
+        groupBox_2->setSizePolicy(sizePolicy1);
         groupBox_2->setFont(font);
         groupBox_2->setCursor(QCursor(Qt::PointingHandCursor));
         groupBox_2->setAcceptDrops(false);
+        groupBox_2->setAlignment(Qt::AlignCenter);
         verticalLayout_5 = new QVBoxLayout(groupBox_2);
         verticalLayout_5->setObjectName("verticalLayout_5");
-        loadButton = new QPushButton(groupBox_2);
-        loadButton->setObjectName("loadButton");
-        QSizePolicy sizePolicy4(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(loadButton->sizePolicy().hasHeightForWidth());
-        loadButton->setSizePolicy(sizePolicy4);
-        loadButton->setMinimumSize(QSize(155, 45));
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8("res/icon.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        loadButton->setIcon(icon1);
-        loadButton->setIconSize(QSize(50, 40));
-        loadButton->setCheckable(true);
-        loadButton->setAutoDefault(false);
-        loadButton->setFlat(false);
+        invertButton = new QPushButton(groupBox_2);
+        invertButton->setObjectName("invertButton");
+        QSizePolicy sizePolicy3(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(invertButton->sizePolicy().hasHeightForWidth());
+        invertButton->setSizePolicy(sizePolicy3);
+        invertButton->setMinimumSize(QSize(155, 45));
+        invertButton->setCheckable(false);
 
-        verticalLayout_5->addWidget(loadButton);
-
-        pushButton_4 = new QPushButton(groupBox_2);
-        pushButton_4->setObjectName("pushButton_4");
-        sizePolicy4.setHeightForWidth(pushButton_4->sizePolicy().hasHeightForWidth());
-        pushButton_4->setSizePolicy(sizePolicy4);
-        pushButton_4->setMinimumSize(QSize(155, 45));
-        pushButton_4->setCheckable(false);
-
-        verticalLayout_5->addWidget(pushButton_4);
+        verticalLayout_5->addWidget(invertButton);
 
         pushButton_5 = new QPushButton(groupBox_2);
         pushButton_5->setObjectName("pushButton_5");
-        sizePolicy4.setHeightForWidth(pushButton_5->sizePolicy().hasHeightForWidth());
-        pushButton_5->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(pushButton_5->sizePolicy().hasHeightForWidth());
+        pushButton_5->setSizePolicy(sizePolicy3);
         pushButton_5->setMinimumSize(QSize(155, 45));
         pushButton_5->setCheckable(false);
 
@@ -230,13 +256,16 @@ public:
 
         pushButton_3 = new QPushButton(groupBox_2);
         pushButton_3->setObjectName("pushButton_3");
-        sizePolicy4.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
-        pushButton_3->setSizePolicy(sizePolicy4);
+        sizePolicy3.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
+        pushButton_3->setSizePolicy(sizePolicy3);
         pushButton_3->setMinimumSize(QSize(155, 45));
         pushButton_3->setCheckable(false);
 
         verticalLayout_5->addWidget(pushButton_3);
 
+        pushButton_5->raise();
+        pushButton_3->raise();
+        invertButton->raise();
 
         verticalLayout->addWidget(groupBox_2);
 
@@ -254,7 +283,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName("menuBar");
-        menuBar->setGeometry(QRect(0, 0, 800, 21));
+        menuBar->setGeometry(QRect(0, 0, 1043, 25));
         menuSettings = new QMenu(menuBar);
         menuSettings->setObjectName("menuSettings");
         MainWindow->setMenuBar(menuBar);
@@ -279,15 +308,47 @@ public:
         help->setText(QCoreApplication::translate("MainWindow", "help", nullptr));
         info->setText(QCoreApplication::translate("MainWindow", "info", nullptr));
         infoPlain->setPlainText(QString());
-        infoPlain->setPlaceholderText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\320\265 \320\270\320\267\320\276\320\261\321\200\320\260\320\266\320\265\320\275\320\270\320\265, \320\275\320\260\320\266\320\260\320\262 \320\275\320\260 \320\261\320\276\320\273\321\214\321\210\321\203\321\216 \320\272\320\275\320\276\320\277\320\272\321\203 \320\262 \320\262\320\270\320\264\320\265 \320\270\320\272\320\276\320\275\320\272\320\270 \321\215\321\202\320\276\320\263\320\276 \320\277\321\200\320\270\320\273\320\276\320\266\320\265\320\275\320\270\321\217", nullptr));
-        groupBox->setTitle(QCoreApplication::translate("MainWindow", "             Sliders", nullptr));
-        groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "              Tools", nullptr));
+        infoPlain->setPlaceholderText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\320\265 \320\270\320\267\320\276\320\261\321\200\320\260\320\266\320\265\320\275\320\270\320\265, \320\275\320\260\320\266\320\260\320\262 \320\275\320\260 \320\272\320\275\320\276\320\277\320\272\321\203 \320\262 \320\262\320\270\320\264\320\265 \320\270\320\272\320\276\320\275\320\272\320\270 \321\215\321\202\320\276\320\263\320\276 \320\277\321\200\320\270\320\273\320\276\320\266\320\265\320\275\320\270\321\217", nullptr));
+#if QT_CONFIG(tooltip)
+        loadButton->setToolTip(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\321\214 \320\270\320\267\320\276\320\261\321\200\320\260\320\266\320\265\320\275\320\270\321\217", nullptr));
+#endif // QT_CONFIG(tooltip)
         loadButton->setText(QString());
 #if QT_CONFIG(shortcut)
         loadButton->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+O", nullptr));
 #endif // QT_CONFIG(shortcut)
-        pushButton_4->setText(QCoreApplication::translate("MainWindow", "Tool", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("MainWindow", "Sliders", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "Noise", nullptr));
+#if QT_CONFIG(tooltip)
+        noiseSlider->setToolTip(QString());
+#endif // QT_CONFIG(tooltip)
+        label_2->setText(QCoreApplication::translate("MainWindow", "Saturation", nullptr));
+#if QT_CONFIG(tooltip)
+        saturationSlider->setToolTip(QString());
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(statustip)
+        saturationSlider->setStatusTip(QString());
+#endif // QT_CONFIG(statustip)
+#if QT_CONFIG(whatsthis)
+        saturationSlider->setWhatsThis(QString());
+#endif // QT_CONFIG(whatsthis)
+#if QT_CONFIG(accessibility)
+        saturationSlider->setAccessibleName(QString());
+#endif // QT_CONFIG(accessibility)
+#if QT_CONFIG(accessibility)
+        saturationSlider->setAccessibleDescription(QString());
+#endif // QT_CONFIG(accessibility)
+        groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "Tools", nullptr));
+#if QT_CONFIG(tooltip)
+        invertButton->setToolTip(QString());
+#endif // QT_CONFIG(tooltip)
+        invertButton->setText(QCoreApplication::translate("MainWindow", "Swap RGB", nullptr));
+#if QT_CONFIG(tooltip)
+        pushButton_5->setToolTip(QString());
+#endif // QT_CONFIG(tooltip)
         pushButton_5->setText(QCoreApplication::translate("MainWindow", "Tool", nullptr));
+#if QT_CONFIG(tooltip)
+        pushButton_3->setToolTip(QString());
+#endif // QT_CONFIG(tooltip)
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "Tool", nullptr));
         menuSettings->setTitle(QCoreApplication::translate("MainWindow", "menu", nullptr));
     } // retranslateUi
