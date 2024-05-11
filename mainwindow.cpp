@@ -47,6 +47,7 @@ void MainWindow::loadImage(QString fileName)
     updateInfo();
 
     ui->activityLog->addItem("Opened: "+fileName);
+    setTimeToLastItem();
 }
 
 QString MainWindow::getImageInfo()
@@ -86,13 +87,13 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 
 void MainWindow::dropEvent(QDropEvent *event)
 {
-    // Получаем URL из события
+    // получаем URL из события
     QList<QUrl> urls = event->mimeData()->urls();
     if (urls.isEmpty()) {
         return;
     }
 
-    // Получаем путь к файлу
+    // получаем путь к файлу
     QString fileName = urls.first().toLocalFile();
 
     loadImage(fileName);

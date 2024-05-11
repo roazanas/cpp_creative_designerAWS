@@ -1,0 +1,8 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+<file alias="res/1.jpeg">D:/qt/designerAWS/res/1.jpeg</file>
+<file alias="res/2.jpg">D:/qt/designerAWS/res/2.jpg</file>
+<file alias="res/icon.svg">D:/qt/designerAWS/res/icon.svg</file>
+<file alias="res/stub.jpg">D:/qt/designerAWS/res/stub.jpg</file>
+</qresource>
+</RCC>

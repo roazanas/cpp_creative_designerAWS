@@ -32,6 +32,7 @@ void MainWindow::on_invertButton_clicked()
     scene->addPixmap(pixmap);
 
     ui->activityLog->addItem("RGB swapped");
+    setTimeToLastItem();
 }
 
 void MainWindow::on_loadButton_clicked()

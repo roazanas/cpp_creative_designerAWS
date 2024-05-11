@@ -72,7 +72,10 @@ OBJECTS       = debug/applyMethods.o \
 		debug/moc_info.o \
 		debug/moc_mainwindow.o
 
-DIST          =  ..\..\customview.h \
+DIST          = res/1.jpeg \
+		res/2.jpg \
+		res/icon.svg \
+		res/stub.jpg ..\..\customview.h \
 		..\..\info.h \
 		..\..\mainwindow.h \
 		sliderEventsMainWindow.h ..\..\applyMethods.cpp \
@@ -1188,7 +1191,67 @@ debug/applyMethods.o: ../../applyMethods.cpp ../../mainwindow.h \
 		C:/Qt/6.7.0/mingw_64/include/QtCore/QMimeData \
 		C:/Qt/6.7.0/mingw_64/include/QtCore/qmimedata.h \
 		../../info.h \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QWidget
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QWidget \
+		ui_mainwindow.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/QVariant \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/QAction \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/QIcon \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QApplication \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qapplication.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QGroupBox \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qgroupbox.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QHBoxLayout \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qboxlayout.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlayout.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlayoutitem.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qgridlayout.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QListWidget \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlistwidget.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlistview.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qrubberband.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QMenu \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qmenu.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QMenuBar \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qmenubar.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QPlainTextEdit \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qplaintextedit.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qtextedit.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextoption.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextcursor.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextformat.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qpen.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qabstracttextdocumentlayout.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextlayout.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qglyphrun.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qrawfont.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qfontdatabase.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QPushButton \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qpushbutton.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QSlider \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QSpacerItem \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QVBoxLayout \
+		../../customview.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QGraphicsView \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qgraphicsview.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qpainter.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qscrollarea.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qgraphicsscene.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QGraphicsScene \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/QWheelEvent
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\applyMethods.o ..\..\applyMethods.cpp
 
 debug/buttonEventsMainWindow.o: ../../buttonEventsMainWindow.cpp ../../mainwindow.h \
@@ -1422,6 +1485,23 @@ debug/buttonEventsMainWindow.o: ../../buttonEventsMainWindow.cpp ../../mainwindo
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlayout.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qgridlayout.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QListWidget \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlistwidget.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlistview.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qrubberband.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QMenu \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qmenu.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QMenuBar \
@@ -1429,7 +1509,6 @@ debug/buttonEventsMainWindow.o: ../../buttonEventsMainWindow.cpp ../../mainwindo
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QPlainTextEdit \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qplaintextedit.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qtextedit.h \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
 		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextoption.h \
 		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextcursor.h \
 		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextformat.h \
@@ -1443,8 +1522,6 @@ debug/buttonEventsMainWindow.o: ../../buttonEventsMainWindow.cpp ../../mainwindo
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QSlider \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractslider.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QSpacerItem \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QVBoxLayout \
 		../../customview.h \
@@ -2310,6 +2387,23 @@ debug/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlayout.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qgridlayout.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QListWidget \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlistwidget.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlistview.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qrubberband.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QMenu \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qmenu.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QMenuBar \
@@ -2317,7 +2411,6 @@ debug/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QPlainTextEdit \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qplaintextedit.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qtextedit.h \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
 		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextoption.h \
 		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextcursor.h \
 		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextformat.h \
@@ -2331,8 +2424,6 @@ debug/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QSlider \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractslider.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QSpacerItem \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QVBoxLayout \
 		../../customview.h \
@@ -2576,6 +2667,23 @@ debug/serviceFunctions.o: ../../serviceFunctions.cpp ../../mainwindow.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlayout.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qgridlayout.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QListWidget \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlistwidget.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlistview.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qrubberband.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QMenu \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qmenu.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QMenuBar \
@@ -2583,7 +2691,6 @@ debug/serviceFunctions.o: ../../serviceFunctions.cpp ../../mainwindow.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QPlainTextEdit \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qplaintextedit.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qtextedit.h \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
 		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextoption.h \
 		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextcursor.h \
 		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextformat.h \
@@ -2597,8 +2704,6 @@ debug/serviceFunctions.o: ../../serviceFunctions.cpp ../../mainwindow.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QSlider \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractslider.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QSpacerItem \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QVBoxLayout \
 		../../customview.h \
@@ -2842,6 +2947,23 @@ debug/sliderEventsMainWindow.o: ../../sliderEventsMainWindow.cpp ../../mainwindo
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlayout.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlayoutitem.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qgridlayout.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QListWidget \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlistwidget.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlistview.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qrubberband.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QMenu \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qmenu.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QMenuBar \
@@ -2849,7 +2971,6 @@ debug/sliderEventsMainWindow.o: ../../sliderEventsMainWindow.cpp ../../mainwindo
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QPlainTextEdit \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qplaintextedit.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qtextedit.h \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
 		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextoption.h \
 		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextcursor.h \
 		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextformat.h \
@@ -2863,8 +2984,6 @@ debug/sliderEventsMainWindow.o: ../../sliderEventsMainWindow.cpp ../../mainwindo
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QSlider \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractslider.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QSpacerItem \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QVBoxLayout \
 		../../customview.h \

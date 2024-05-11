@@ -1,23 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-void MainWindow::on_noiseSlider_actionTriggered(int action)
-{
-    switch (action)
-    {
-    case 3: case 4:
-        on_noiseSlider_sliderReleased();
-    }
-}
-
-void MainWindow::on_saturationSlider_actionTriggered(int action)
-{
-    switch (action)
-    {
-    case 3: case 4:
-        on_saturationSlider_sliderReleased();
-    }
-}
 
 void MainWindow::on_noiseSlider_sliderReleased()
 {
@@ -48,6 +31,7 @@ void MainWindow::on_noiseSlider_sliderReleased()
     ui->noiseSlider->setToolTip(QString("%1%").arg(value));
 
     ui->activityLog->addItem("Noise level - "+QString("%1%").arg(value));
+    setTimeToLastItem();
 }
 
 void MainWindow::on_saturationSlider_sliderReleased()
@@ -72,4 +56,5 @@ void MainWindow::on_saturationSlider_sliderReleased()
     ui->saturationSlider->setToolTip(QString("%1%").arg(value));
 
     ui->activityLog->addItem("Saturation level - "+QString("%1%").arg(value));
+    setTimeToLastItem();
 }
