@@ -50,13 +50,24 @@ void MainWindow::on_loadButton_clicked()
     updateInfo();
 }
 
-QImage MainWindow::applyEffects()
+QImage MainWindow::applyLayers()
 {
     for (auto it = this->layers.begin(); it != this->layers.end(); it++)
     {
         QImage layer = it.value().first;
         float transparency = it.value().second;
         this->viewImage = combiningImagesSameSize(viewImage, layer, transparency);
+    }
+    return this->viewImage;
+}
+
+QImage MainWindow::applyEffects()
+{
+    for (auto it = this->effects.begin(); it != this->effects.end(); it++)
+    {
+        QImage effect = it.value().first;
+        float transparency = it.value().second;
+        this->viewImage = combiningImagesSameSize(viewImage, effect, transparency);
     }
     return this->viewImage;
 }
@@ -88,13 +99,17 @@ void MainWindow::on_noiseSlider_sliderReleased()
     viewImage = originalImage;
 
     // сначала применяет все существующие эффекты, потом уже применяет и сохраняет этот
-    viewImage = applyEffects();
+
+    viewImage = applyLayers();
 
     QImage temp = combiningImagesSameSize(viewImage, noise, fvalue);
+
+    temp = applyEffects();
 
     this->layers["noise"] = {this->noise, fvalue};
 
     QPixmap pixmap = QPixmap::fromImage(temp);
+    scene->clear();
     scene->addPixmap(pixmap);
 }
 
@@ -117,17 +132,20 @@ void MainWindow::on_saturationSlider_sliderReleased()
     QImage saturation = addSaturation(resultValueForSaturation);
 
     viewImage = originalImage;
-    viewImage = applyEffects();
+
+    viewImage = applyLayers();
+
+    temp = applyEffects();
 
     if (transperancy < 0.5)
     {
         temp = combiningImagesSameSize(viewImage, saturation, 1 - transperancy);
-        this->layers["saturation"] = {saturation, 1 - transperancy};
+        this->effects["saturation"] = {saturation, 1 - transperancy};
     }
     else
     {
         temp = combiningImagesSameSize(viewImage, saturation, transperancy);
-        this->layers["saturation"] = {saturation, transperancy};
+        this->effects["saturation"] = {saturation, transperancy};
     }
 
 

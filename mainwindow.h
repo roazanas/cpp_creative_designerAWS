@@ -45,6 +45,8 @@ private:
     QGraphicsScene* scene;
 
     QMap<std::string, std::pair<QImage, float>> layers;
+    QMap<std::string, std::pair<QImage, float>> effects;
+
     QImage noise;
     QImage originalImage;
     QImage viewImage;
@@ -57,6 +59,8 @@ private:
     QImage addSaturation(float k);
 
     QImage noiseGenerating();
+
+    QImage applyLayers();
 
     QImage applyEffects();
 
