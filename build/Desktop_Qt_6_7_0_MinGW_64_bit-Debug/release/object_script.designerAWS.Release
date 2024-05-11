@@ -1,0 +1,11 @@
+release/applyMethods.o
+release/buttonEventsMainWindow.o
+release/customview.o
+release/info.o
+release/main.o
+release/mainwindow.o
+release/serviceFunctions.o
+release/sliderEventsMainWindow.o
+release/moc_customview.o
+release/moc_info.o
+release/moc_mainwindow.o

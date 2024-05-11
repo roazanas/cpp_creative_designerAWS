@@ -55,6 +55,7 @@ private:
     QMap<std::string, std::pair<QImage, double>> layers;
     QMap<std::string, double> effects;
 
+    bool invertationFlag;
     QImage noise;
     QImage originalImage;
     QImage viewImage;

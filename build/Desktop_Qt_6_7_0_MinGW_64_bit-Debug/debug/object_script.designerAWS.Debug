@@ -1,0 +1,11 @@
+debug/applyMethods.o
+debug/buttonEventsMainWindow.o
+debug/customview.o
+debug/info.o
+debug/main.o
+debug/mainwindow.o
+debug/serviceFunctions.o
+debug/sliderEventsMainWindow.o
+debug/moc_customview.o
+debug/moc_info.o
+debug/moc_mainwindow.o
