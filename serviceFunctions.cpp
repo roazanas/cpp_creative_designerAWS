@@ -1,26 +1,50 @@
 #include "noisegenerator.h"
 #include "ui_mainwindow.h"
 
+// эта заполняла прозрачные пиксели
+// QImage MainWindow::addSaturation(QImage& image, double k)
+// {
+//     int width = image.width();
+//     int height = image.height();
+//     QImage saturation = image.copy();
+
+//     for (int y = 0; y < height; y++)
+//     {
+//         uchar* scanLine = saturation.scanLine(y);
+//         for (int x = 0; x < width; x++)
+//         {
+//             QRgb* pixel = reinterpret_cast<QRgb*>(scanLine + x * 4); // 4 байта на пиксель (ARGB32)
+//             QColor color(*pixel);
+//             int h, s, l, a;
+//             color.getHsl(&h, &s, &l, &a);
+//             s *= k;
+//             s = qBound(0, s, 255);
+//             color.setHsl(h, s, l, a);
+//             *pixel = color.rgba();
+//         }
+//     }
+//     return saturation;
+// }
 
 QImage MainWindow::addSaturation(QImage& image, double k)
 {
-    int width = image.width();
-    int height = image.height();
+    int width = this->originalImage.width();
+    int height = this->originalImage.height();
     QImage saturation = image.copy();
-
-    for (int y = 0; y < height; y++)
+    for (int i = 0; i < width; i++)
     {
-        uchar* scanLine = saturation.scanLine(y);
-        for (int x = 0; x < width; x++)
+        for (int j = 0; j < height; j++)
         {
-            QRgb* pixel = reinterpret_cast<QRgb*>(scanLine + x * 4); // 4 байта на пиксель (ARGB32)
-            QColor color(*pixel);
+            QColor pixel = saturation.pixelColor(i, j);
             int h, s, l, a;
-            color.getHsl(&h, &s, &l, &a);
+            pixel.getHsl(&h, &s, &l, &a);
             s *= k;
-            s = qBound(0, s, 255);
-            color.setHsl(h, s, l, a);
-            *pixel = color.rgba();
+            if (s < 0)
+                s = 0;
+            if (s > 255)
+                s = 255;
+            pixel.setHsl(h, s, l, a);
+            saturation.setPixel(i, j, pixel.rgba());
         }
     }
     return saturation;
@@ -147,10 +171,13 @@ QImage MainWindow::inversionImage(QImage& image, double /*unused*/)
     {
         for (int j = 0; j < height; j++)
         {
-            int r = invertImage.pixelColor(i,j).red();
-            int g = invertImage.pixelColor(i,j).green();
-            int b = invertImage.pixelColor(i,j).blue();
-            invertImage.setPixelColor(i,j,QColor(255-r,255-g,255-b));
+            if (invertImage.pixelColor(i,j).alpha() != 0)
+            {
+                int r = invertImage.pixelColor(i,j).red();
+                int g = invertImage.pixelColor(i,j).green();
+                int b = invertImage.pixelColor(i,j).blue();
+                invertImage.setPixelColor(i,j,QColor(255-r,255-g,255-b));
+            }
         }
     }
     return invertImage;
@@ -249,19 +276,28 @@ void MainWindow::amountOfLight()
         {
             QColor color = image.pixelColor(i, j);
 
-            int deltaR = 255 - color.red();
-            int deltaG = 255 - color.green();
-            int deltaB = 255 - color.blue();
+            if (color.alpha() != 0)
+            {
+                int deltaR = 255 - color.red();
+                int deltaG = 255 - color.green();
+                int deltaB = 255 - color.blue();
 
-            if ((deltaR + deltaG + deltaB) < 90)
-            {
-                countOverLightPixels++;
-            }
-            if ((deltaR + deltaG + deltaB) < 20)
-            {
-                countEXTRAOverLightPixels++;
+
+                if ((deltaR + deltaG + deltaB) < 90)
+                {
+                    countOverLightPixels++;
+                }
+                if ((deltaR + deltaG + deltaB) < 20)
+                {
+                    countEXTRAOverLightPixels++;
+                }
             }
         }
+    }
+    if (countOverLightPixels == 0)
+    {
+        this->overexposureStatus = QString("...There are no overexposures in the image...");
+        return;
     }
     double k = (static_cast<double>(countOverLightPixels) / static_cast<double>(countPixels));
     double lpixK = (static_cast<double>(countEXTRAOverLightPixels) / static_cast<double>(countOverLightPixels));

@@ -121,15 +121,30 @@ void MainWindow::onMouseClick(QPoint point)
     if (ui->removeBGButton->isChecked()) {
         pointToFill = point;
         QImage temp;
+
+        // old method
+        // viewImage = originalImage.copy();
+        // viewImage = applyLayers();
+
+        // this->effects["filled"] = {&MainWindow::applyFloodFill, 1.0};
+
+        // temp = applyEffects();
+
+        originalImage = applyFloodFill(originalImage, 1.0);
+
         viewImage = originalImage.copy();
+
         viewImage = applyLayers();
-        this->effects["filled"].first = &MainWindow::applyFloodFill;
-        this->effects["filled"].second = 1.0;
+
         temp = applyEffects();
 
-        QPixmap pixmap = QPixmap::fromImage(temp);
+
+        QPixmap pixmap = QPixmap::fromImage(viewImage);
         scene->clear();
         scene->addPixmap(pixmap);
+
+        this->amountOfLightFlag = false;
+        updateInfo();
 
         ui->activityLog->addItem("Filled image");
         setTimeToLastItem();
