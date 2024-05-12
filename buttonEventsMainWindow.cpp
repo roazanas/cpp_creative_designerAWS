@@ -1,12 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-void MainWindow::on_invertButton_clicked()
+void MainWindow::on_swapRGBButton_clicked()
 {
-    if (this->effects.contains("invertation"))
+    if (this->effects.contains("swapRGB"))
     {
         this->invertationFlag = false;
-        this->effects.remove("invertation");
+        this->effects.remove("swapRGB");
     }
     else
     {
@@ -22,8 +22,8 @@ void MainWindow::on_invertButton_clicked()
 
     if (this->invertationFlag)
     {
-        this->effects["invertation"].first = &MainWindow::applyRgbSwap;
-        this->effects["invertation"].second = transperancy;
+        this->effects["swapRGB"].first = &MainWindow::applyRgbSwap;
+        this->effects["swapRGB"].second = transperancy;
     }
 
     temp = applyEffects();

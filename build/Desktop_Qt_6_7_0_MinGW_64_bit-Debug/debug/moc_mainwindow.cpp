@@ -43,7 +43,7 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "on_saturationSlider_sliderReleased",
     "onScaleChanged",
     "on_info_triggered",
-    "on_invertButton_clicked",
+    "on_swapRGBButton_clicked",
     "on_noiseSlider_valueChanged",
     "value",
     "on_saturationSlider_valueChanged"
@@ -108,7 +108,7 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_info_triggered'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_invertButton_clicked'
+        // method 'on_swapRGBButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_noiseSlider_valueChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
@@ -131,7 +131,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 2: _t->on_saturationSlider_sliderReleased(); break;
         case 3: _t->onScaleChanged(); break;
         case 4: _t->on_info_triggered(); break;
-        case 5: _t->on_invertButton_clicked(); break;
+        case 5: _t->on_swapRGBButton_clicked(); break;
         case 6: _t->on_noiseSlider_valueChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         case 7: _t->on_saturationSlider_valueChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         default: ;

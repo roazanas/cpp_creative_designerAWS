@@ -48,6 +48,7 @@ public:
     QSpacerItem *horizontalSpacer;
     QVBoxLayout *verticalLayout;
     QSpacerItem *verticalSpacer;
+    QPushButton *pushButton;
     QHBoxLayout *horizontalLayout_3;
     QPushButton *loadButton;
     QPushButton *saveButton;
@@ -59,7 +60,7 @@ public:
     QSlider *saturationSlider;
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout_5;
-    QPushButton *invertButton;
+    QPushButton *swapRGBButton;
     QPushButton *pushButton_5;
     QPushButton *pushButton_3;
     QSpacerItem *verticalSpacer_2;
@@ -157,6 +158,22 @@ public:
 
         verticalLayout->addItem(verticalSpacer);
 
+        pushButton = new QPushButton(centralwidget);
+        pushButton->setObjectName("pushButton");
+        pushButton->setEnabled(false);
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8("res/namename.jpg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8("res/namename.jpg"), QSize(), QIcon::Disabled, QIcon::Off);
+        pushButton->setIcon(icon1);
+        pushButton->setIconSize(QSize(200, 100));
+        pushButton->setCheckable(false);
+        pushButton->setAutoRepeat(false);
+        pushButton->setAutoExclusive(false);
+        pushButton->setAutoDefault(false);
+        pushButton->setFlat(true);
+
+        verticalLayout->addWidget(pushButton);
+
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName("horizontalLayout_3");
         loadButton = new QPushButton(centralwidget);
@@ -168,9 +185,9 @@ public:
         loadButton->setSizePolicy(sizePolicy2);
         loadButton->setMinimumSize(QSize(50, 50));
         loadButton->setAcceptDrops(false);
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8("res/icon.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        loadButton->setIcon(icon1);
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8("res/icon.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        loadButton->setIcon(icon2);
         loadButton->setIconSize(QSize(40, 40));
         loadButton->setCheckable(true);
         loadButton->setAutoDefault(false);
@@ -184,9 +201,9 @@ public:
         sizePolicy2.setHeightForWidth(saveButton->sizePolicy().hasHeightForWidth());
         saveButton->setSizePolicy(sizePolicy2);
         saveButton->setMinimumSize(QSize(50, 50));
-        QIcon icon2;
-        icon2.addFile(QString::fromUtf8("res/file.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        saveButton->setIcon(icon2);
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8("res/folder-file-alt-svgrepo-com.gif"), QSize(), QIcon::Normal, QIcon::Off);
+        saveButton->setIcon(icon3);
         saveButton->setIconSize(QSize(40, 40));
         saveButton->setFlat(false);
 
@@ -197,7 +214,7 @@ public:
 
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName("groupBox");
-        groupBox->setEnabled(false);
+        groupBox->setEnabled(true);
         QSizePolicy sizePolicy3(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
         sizePolicy3.setHorizontalStretch(0);
         sizePolicy3.setVerticalStretch(0);
@@ -285,14 +302,14 @@ public:
         groupBox_2->setAlignment(Qt::AlignCenter);
         verticalLayout_5 = new QVBoxLayout(groupBox_2);
         verticalLayout_5->setObjectName("verticalLayout_5");
-        invertButton = new QPushButton(groupBox_2);
-        invertButton->setObjectName("invertButton");
-        sizePolicy3.setHeightForWidth(invertButton->sizePolicy().hasHeightForWidth());
-        invertButton->setSizePolicy(sizePolicy3);
-        invertButton->setMinimumSize(QSize(155, 45));
-        invertButton->setCheckable(false);
+        swapRGBButton = new QPushButton(groupBox_2);
+        swapRGBButton->setObjectName("swapRGBButton");
+        sizePolicy3.setHeightForWidth(swapRGBButton->sizePolicy().hasHeightForWidth());
+        swapRGBButton->setSizePolicy(sizePolicy3);
+        swapRGBButton->setMinimumSize(QSize(155, 45));
+        swapRGBButton->setCheckable(false);
 
-        verticalLayout_5->addWidget(invertButton);
+        verticalLayout_5->addWidget(swapRGBButton);
 
         pushButton_5 = new QPushButton(groupBox_2);
         pushButton_5->setObjectName("pushButton_5");
@@ -314,7 +331,7 @@ public:
 
         pushButton_5->raise();
         pushButton_3->raise();
-        invertButton->raise();
+        swapRGBButton->raise();
 
         verticalLayout->addWidget(groupBox_2);
 
@@ -332,7 +349,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName("menuBar");
-        menuBar->setGeometry(QRect(0, 0, 1043, 25));
+        menuBar->setGeometry(QRect(0, 0, 1043, 21));
         menuSettings = new QMenu(menuBar);
         menuSettings->setObjectName("menuSettings");
         MainWindow->setMenuBar(menuBar);
@@ -344,6 +361,7 @@ public:
 
         retranslateUi(MainWindow);
 
+        pushButton->setDefault(false);
         loadButton->setDefault(false);
         saveButton->setDefault(false);
 
@@ -353,13 +371,14 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Designer tool", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Designer AWS", nullptr));
         actioninfo->setText(QCoreApplication::translate("MainWindow", "help", nullptr));
         help->setText(QCoreApplication::translate("MainWindow", "help", nullptr));
         info->setText(QCoreApplication::translate("MainWindow", "info", nullptr));
         infoPlain->setDocumentTitle(QString());
         infoPlain->setPlainText(QString());
         infoPlain->setPlaceholderText(QCoreApplication::translate("MainWindow", "Upload image by pressing icon button", nullptr));
+        pushButton->setText(QString());
 #if QT_CONFIG(tooltip)
         loadButton->setToolTip(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\321\214 \320\270\320\267\320\276\320\261\321\200\320\260\320\266\320\265\320\275\320\270\321\217", nullptr));
 #endif // QT_CONFIG(tooltip)
@@ -397,9 +416,9 @@ public:
 #endif // QT_CONFIG(accessibility)
         groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "Tools", nullptr));
 #if QT_CONFIG(tooltip)
-        invertButton->setToolTip(QString());
+        swapRGBButton->setToolTip(QString());
 #endif // QT_CONFIG(tooltip)
-        invertButton->setText(QCoreApplication::translate("MainWindow", "Swap RGB", nullptr));
+        swapRGBButton->setText(QCoreApplication::translate("MainWindow", "Swap RGB", nullptr));
 #if QT_CONFIG(tooltip)
         pushButton_5->setToolTip(QString());
 #endif // QT_CONFIG(tooltip)

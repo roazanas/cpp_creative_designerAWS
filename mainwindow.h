@@ -44,7 +44,7 @@ private slots:
 
     void on_info_triggered();
 
-    void on_invertButton_clicked();
+    void on_swapRGBButton_clicked();
 
     void on_noiseSlider_valueChanged(int value);
 
