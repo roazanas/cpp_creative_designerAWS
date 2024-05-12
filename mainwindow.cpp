@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     info = new Info;
     scene = new QGraphicsScene(this);
     connect(ui->image, &CustomView::scaleChanged, this, &MainWindow::onScaleChanged);
+    connect(ui->image, &CustomView::mouseClick, this, &MainWindow::onMouseClick);
 
     setAcceptDrops(true);
 }
@@ -18,11 +19,18 @@ void MainWindow::loadImage(QString fileName)
 {
     ui->groupBox->setEnabled(1);
     ui->groupBox_2->setEnabled(1);
+    ui->saveButton->setEnabled(1);
 
     // радикальные методы очистки, т.к. scene.clear() работает не полностью корректно
     delete scene;
     scene = new QGraphicsScene(this);
     ui->image->setScene(scene);
+    this->amountOfLightFlag = false;
+    this->inversionFlag = false;
+    this->swapRGBFlag = false;
+
+    this->layers.clear();
+    this->effects.clear();
 
     // перемещаем слайдеры в первоначальное положение
     ui->noiseSlider->setValue(0);
@@ -58,6 +66,13 @@ QString MainWindow::getImageInfo()
     result += "• Имя файла: \n\t" + filePathArray.last() + "\n\n";
     result += "• Размеры изображения: \n\t" + sizeString + "\n\n";
     result += ui->image->getScaleInfo() + "\n\n";
+    if (!amountOfLightFlag)
+    {
+        amountOfLight();
+        this->amountOfLightFlag = true;
+    }
+
+    result += this->overexposureStatus;
     return result;
 }
 
@@ -97,6 +112,28 @@ void MainWindow::dropEvent(QDropEvent *event)
     QString fileName = urls.first().toLocalFile();
 
     loadImage(fileName);
+}
+
+void MainWindow::onMouseClick(QPoint point)
+{
+    if (ui->removeBGButton->isChecked()) {
+        pointToFill = point;
+        QImage temp;
+        viewImage = originalImage.copy();
+        viewImage = applyLayers();
+        this->effects["filled"].first = &MainWindow::applyFloodFill;
+        this->effects["filled"].second = 1.0;
+        temp = applyEffects();
+
+        QPixmap pixmap = QPixmap::fromImage(temp);
+        scene->clear();
+        scene->addPixmap(pixmap);
+
+        ui->activityLog->addItem("Filled image");
+        setTimeToLastItem();
+
+        ui->removeBGButton->setChecked(false);
+    }
 }
 
 MainWindow::~MainWindow()

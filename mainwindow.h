@@ -14,6 +14,7 @@
 #include <QListWidget>
 #include <QDateTime>
 #include <QThread>
+#include <queue>
 #include "info.h"
 
 QT_BEGIN_NAMESPACE
@@ -49,12 +50,19 @@ private slots:
     void on_noiseSlider_valueChanged(int value);
 
     void on_saturationSlider_valueChanged(int value);
+
     void on_inversionButton_clicked();
+
+    void on_saveButton_clicked();
+
+    void onMouseClick(QPoint point);
 
 private:
     Ui::MainWindow *ui;
     Info* info;
     QGraphicsScene* scene;
+
+    QPoint pointToFill;
 
 
     // Определение типа указателя на функцию для эффектов
@@ -65,6 +73,9 @@ private:
 
     bool swapRGBFlag;
     bool inversionFlag;
+    bool amountOfLightFlag = false;
+    QString overexposureStatus;
+
     QImage noise;
     QImage originalImage;
     QImage viewImage;
@@ -84,6 +95,8 @@ private:
 
     void setTimeToLastItem();
 
+    void amountOfLight();
+
     QColor mediumColor(QColor colorRGB1, QColor colorRGB2, double k);
 
     QImage combiningImagesSameSize(const QImage &image1, const QImage &image2, double k = 0.5);
@@ -91,5 +104,9 @@ private:
     QImage applyRgbSwap(QImage& image, double /*unused*/) {return image.rgbSwapped();}
 
     QImage inversionImage(QImage& image, double /*unused*/);
+
+    QImage floodFill(QImage& image, QPoint point, QColor oldColor, QColor newColor);
+
+    QImage applyFloodFill(QImage &image, double);
 };
 #endif // MAINWINDOW_H

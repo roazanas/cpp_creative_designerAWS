@@ -23,8 +23,7 @@ HEADERS += \
     customview.h \
     info.h \
     mainwindow.h \
-    noisegenerator.h \
-    sliderEventsMainWindow.h
+    noisegenerator.h
 
 FORMS += \
     info.ui \

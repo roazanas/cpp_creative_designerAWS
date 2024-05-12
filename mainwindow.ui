@@ -300,6 +300,12 @@
             <height>40</height>
            </size>
           </property>
+          <property name="shortcut">
+           <string>Ctrl+S</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
           <property name="default">
            <bool>false</bool>
           </property>
@@ -573,7 +579,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_3">
+          <widget class="QPushButton" name="removeBGButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -590,16 +596,16 @@
             <string/>
            </property>
            <property name="text">
-            <string>Tool</string>
+            <string>Remove background</string>
            </property>
            <property name="checkable">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
         </layout>
         <zorder>inversionButton</zorder>
-        <zorder>pushButton_3</zorder>
+        <zorder>removeBGButton</zorder>
         <zorder>swapRGBButton</zorder>
        </widget>
       </item>

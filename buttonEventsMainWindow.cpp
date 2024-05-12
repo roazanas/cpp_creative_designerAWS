@@ -1,6 +1,33 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+void MainWindow::on_loadButton_clicked()
+{
+    // даёт юзеру выбрать изображение и возвращает его полный путь
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Выберите изображение"),
+                                                    QString(),
+                                                    tr("Изображения (*.png *.jpg *.jpeg)"));
+    ui->loadButton->setChecked(false);
+    if (!fileName.isEmpty())
+    {
+        loadImage(fileName);
+    }
+}
+
+
+void MainWindow::on_saveButton_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Сохранить изображение"),
+                                                    QString(),
+                                                    tr("Изображения (*.png *.jpg *.jpeg)"));
+    ui->saveButton->setChecked(false);
+    if (!fileName.isEmpty())
+    {
+        viewImage.save(fileName);
+    }
+}
+
+
 void MainWindow::on_swapRGBButton_clicked()
 {
     if (this->effects.contains("swapRGB"))
@@ -28,6 +55,9 @@ void MainWindow::on_swapRGBButton_clicked()
 
     temp = applyEffects();
 
+    this->amountOfLightFlag = false;
+    updateInfo();
+
     QPixmap pixmap = QPixmap::fromImage(temp);
     scene->clear();
     scene->addPixmap(pixmap);
@@ -35,22 +65,6 @@ void MainWindow::on_swapRGBButton_clicked()
     ui->activityLog->addItem("RGB swapped");
     setTimeToLastItem();
 }
-
-void MainWindow::on_loadButton_clicked()
-{
-    // даёт юзеру выбрать изображение и возвращает его полный путь
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Выберите изображение"),
-                                                    "/",
-                                                    tr("Изображения (*.png *.jpg *.jpeg)"));
-    ui->loadButton->setChecked(false);
-    if (fileName.isEmpty())
-    {
-        return;
-    }
-
-    loadImage(fileName);
-}
-
 
 void MainWindow::on_inversionButton_clicked()
 {
@@ -78,6 +92,9 @@ void MainWindow::on_inversionButton_clicked()
     }
 
     temp = applyEffects();
+
+    this->amountOfLightFlag = false;
+    updateInfo();
 
     QPixmap pixmap = QPixmap::fromImage(temp);
     scene->clear();

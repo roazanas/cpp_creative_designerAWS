@@ -2,14 +2,17 @@
 #include "ui_mainwindow.h"
 
 
-QImage MainWindow::addSaturation(QImage& image, double k) {
+QImage MainWindow::addSaturation(QImage& image, double k)
+{
     int width = image.width();
     int height = image.height();
     QImage saturation = image.copy();
 
-    for (int y = 0; y < height; y++) {
+    for (int y = 0; y < height; y++)
+    {
         uchar* scanLine = saturation.scanLine(y);
-        for (int x = 0; x < width; x++) {
+        for (int x = 0; x < width; x++)
+        {
             QRgb* pixel = reinterpret_cast<QRgb*>(scanLine + x * 4); // 4 байта на пиксель (ARGB32)
             QColor color(*pixel);
             int h, s, l, a;
@@ -23,7 +26,8 @@ QImage MainWindow::addSaturation(QImage& image, double k) {
     return saturation;
 }
 
-QImage MainWindow::noiseGenerating() {
+QImage MainWindow::noiseGenerating()
+{
     int width = originalImage.width();
     int height = originalImage.height();
     QImage noise(width, height, QImage::Format_ARGB32);
@@ -33,24 +37,26 @@ QImage MainWindow::noiseGenerating() {
     int numThreads = QThread::idealThreadCount();
 
     // Создание и запуск потоков
-    QList<NoiseGenerator*> threads;
+    QList<QSharedPointer<NoiseGenerator>> threads;
     int chunkSize = height / numThreads;
-    for (int i = 0; i < numThreads; ++i) {
+    for (int i = 0; i < numThreads; ++i)
+    {
         int startY = i * chunkSize;
         int endY = (i == numThreads - 1) ? height : startY + chunkSize;
-        NoiseGenerator* thread = new NoiseGenerator(startY, endY, width, noiseData);
+        QSharedPointer<NoiseGenerator> thread(new NoiseGenerator(startY, endY, width, noiseData));
         threads.append(thread);
         thread->start();
     }
 
     // Ожидание завершения всех потоков
-    for (auto thread : threads) {
+    for (auto thread : threads)
+    {
         thread->wait();
-        delete thread;
     }
 
     // Заполнение изображения
-    for (int y = 0; y < height; y++) {
+    for (int y = 0; y < height; y++)
+    {
         memcpy(noise.scanLine(y), noiseData.constData() + y * width * 4, width * 4);
     }
 
@@ -98,20 +104,25 @@ QColor MainWindow::mediumColor(QColor colorRGB1, QColor colorRGB2, double k)
     return QColor::fromRgb(red, green, blue);
 }
 
-QImage MainWindow::combiningImagesSameSize(const QImage& image1, const QImage& image2, double k) {
+QImage MainWindow::combiningImagesSameSize(const QImage& image1, const QImage& image2, double k)
+{
     QImage finallyImage = image1.copy();
     int width = image1.width();
     int height = image1.height();
 
     const QRgb* data1 = reinterpret_cast<const QRgb*>(image1.constBits());
     const QRgb* data2 = reinterpret_cast<const QRgb*>(image2.constBits());
-    for (int i = 0; i < width * height; i++) {
+    for (int i = 0; i < width * height; i++)
+    {
         QRgb* pixel = reinterpret_cast<QRgb*>(finallyImage.bits() + i * 4);
         QRgb pixel1 = data1[i];
         QRgb pixel2 = data2[i];
-        if (qAlpha(pixel1) != 0) {
+        if (qAlpha(pixel1) != 0)
+        {
             *pixel = mediumColor(QColor::fromRgba(pixel1), QColor::fromRgba(pixel2), k).rgba();
-        } else {
+        }
+        else
+        {
             *pixel = QColor(0, 0, 0, 0).rgba();
         }
     }
@@ -143,4 +154,94 @@ QImage MainWindow::inversionImage(QImage& image, double /*unused*/)
         }
     }
     return invertImage;
+}
+
+QImage MainWindow::floodFill(QImage& image, QPoint point, QColor oldColor, QColor newColor)
+{
+    int width = image.width();
+    int height = image.height();
+    QImage filledImage = image.copy();
+    int x = point.x();
+    int y = point.y();
+
+    if (x < 0 || x >= width || y < 0 || y >= height || filledImage.pixelColor(x, y) != oldColor)
+    {
+        return filledImage;
+    }
+
+    std::queue<QPoint> q;
+    q.push(point);
+
+    while (!q.empty())
+    {
+        QPoint p = q.front();
+        q.pop();
+
+        filledImage.setPixelColor(p, newColor);
+
+        if (p.x() > 0 && filledImage.pixelColor(p.x() - 1, p.y()) == oldColor)
+        {
+            q.push(QPoint(p.x() - 1, p.y()));
+        }
+        if (p.x() < width - 1 && filledImage.pixelColor(p.x() + 1, p.y()) == oldColor)
+        {
+            q.push(QPoint(p.x() + 1, p.y()));
+        }
+        if (p.y() > 0 && filledImage.pixelColor(p.x(), p.y() - 1) == oldColor)
+        {
+            q.push(QPoint(p.x(), p.y() - 1));
+        }
+        if (p.y() < height - 1 && filledImage.pixelColor(p.x(), p.y() + 1) == oldColor)
+        {
+            q.push(QPoint(p.x(), p.y() + 1));
+        }
+    }
+
+    return filledImage;
+}
+
+QImage MainWindow::applyFloodFill(QImage &image, double /*unused*/)
+{
+    return floodFill(image, pointToFill, image.pixelColor(pointToFill), QColor(255, 255, 255, 0));
+}
+
+void MainWindow::amountOfLight()
+{
+    QImage image = viewImage.copy();
+    int countOverLightPixels = 0;
+    int countEXTRAOverLightPixels = 0;
+    int width = image.width();
+    int height = image.height();
+    int countPixels = (width * height);
+    for (int i = 0; i < width; i++)
+    {
+        for (int j = 0; j < height; j++)
+        {
+            QColor color = image.pixelColor(i, j);
+
+            int deltaR = 255 - color.red();
+            int deltaG = 255 - color.green();
+            int deltaB = 255 - color.blue();
+
+            if ((deltaR + deltaG + deltaB) < 90)
+            {
+                countOverLightPixels++;
+            }
+            if ((deltaR + deltaG + deltaB) < 20)
+            {
+                countEXTRAOverLightPixels++;
+            }
+        }
+    }
+    double k = (static_cast<double>(countOverLightPixels) / static_cast<double>(countPixels));
+    double lpixK = (static_cast<double>(countEXTRAOverLightPixels) / static_cast<double>(countOverLightPixels));
+
+    if ((k * 100 > 7) || (lpixK >= 0.4))
+    {
+        this->overexposureStatus = QString("!!!There is an overexposure in the image!!!");
+    }
+    else
+    {
+        this->overexposureStatus = QString("...There are no overexposures in the image...");
+    }
 }

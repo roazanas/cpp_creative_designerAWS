@@ -62,8 +62,8 @@ public:
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout_5;
     QPushButton *swapRGBButton;
-    QPushButton *pushButton_5;
-    QPushButton *pushButton_3;
+    QPushButton *inversionButton;
+    QPushButton *removeBGButton;
     QSpacerItem *verticalSpacer_2;
     QSpacerItem *horizontalSpacer_4;
     QMenuBar *menuBar;
@@ -207,6 +207,7 @@ public:
         icon2.addFile(QString::fromUtf8("res/folder-file-alt-svgrepo-com.gif"), QSize(), QIcon::Normal, QIcon::Off);
         saveButton->setIcon(icon2);
         saveButton->setIconSize(QSize(40, 40));
+        saveButton->setCheckable(true);
         saveButton->setFlat(false);
 
         horizontalLayout_3->addWidget(saveButton);
@@ -313,26 +314,26 @@ public:
 
         verticalLayout_5->addWidget(swapRGBButton);
 
-        pushButton_5 = new QPushButton(groupBox_2);
-        pushButton_5->setObjectName("pushButton_5");
-        sizePolicy4.setHeightForWidth(pushButton_5->sizePolicy().hasHeightForWidth());
-        pushButton_5->setSizePolicy(sizePolicy4);
-        pushButton_5->setMinimumSize(QSize(155, 45));
-        pushButton_5->setCheckable(false);
+        inversionButton = new QPushButton(groupBox_2);
+        inversionButton->setObjectName("inversionButton");
+        sizePolicy4.setHeightForWidth(inversionButton->sizePolicy().hasHeightForWidth());
+        inversionButton->setSizePolicy(sizePolicy4);
+        inversionButton->setMinimumSize(QSize(155, 45));
+        inversionButton->setCheckable(false);
 
-        verticalLayout_5->addWidget(pushButton_5);
+        verticalLayout_5->addWidget(inversionButton);
 
-        pushButton_3 = new QPushButton(groupBox_2);
-        pushButton_3->setObjectName("pushButton_3");
-        sizePolicy4.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
-        pushButton_3->setSizePolicy(sizePolicy4);
-        pushButton_3->setMinimumSize(QSize(155, 45));
-        pushButton_3->setCheckable(false);
+        removeBGButton = new QPushButton(groupBox_2);
+        removeBGButton->setObjectName("removeBGButton");
+        sizePolicy4.setHeightForWidth(removeBGButton->sizePolicy().hasHeightForWidth());
+        removeBGButton->setSizePolicy(sizePolicy4);
+        removeBGButton->setMinimumSize(QSize(155, 45));
+        removeBGButton->setCheckable(true);
 
-        verticalLayout_5->addWidget(pushButton_3);
+        verticalLayout_5->addWidget(removeBGButton);
 
-        pushButton_5->raise();
-        pushButton_3->raise();
+        inversionButton->raise();
+        removeBGButton->raise();
         swapRGBButton->raise();
 
         verticalLayout->addWidget(groupBox_2);
@@ -391,6 +392,9 @@ public:
         saveButton->setToolTip(QCoreApplication::translate("MainWindow", "\320\241\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214 \320\270\320\267\320\276\320\261\321\200\320\260\320\266\320\265\320\275\320\270\320\265", nullptr));
 #endif // QT_CONFIG(tooltip)
         saveButton->setText(QString());
+#if QT_CONFIG(shortcut)
+        saveButton->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+S", nullptr));
+#endif // QT_CONFIG(shortcut)
         groupBox->setTitle(QCoreApplication::translate("MainWindow", "Sliders", nullptr));
         noiseLabel->setText(QCoreApplication::translate("MainWindow", "Noise", nullptr));
 #if QT_CONFIG(tooltip)
@@ -421,13 +425,13 @@ public:
 #endif // QT_CONFIG(tooltip)
         swapRGBButton->setText(QCoreApplication::translate("MainWindow", "Swap RGB", nullptr));
 #if QT_CONFIG(tooltip)
-        pushButton_5->setToolTip(QString());
+        inversionButton->setToolTip(QString());
 #endif // QT_CONFIG(tooltip)
-        pushButton_5->setText(QCoreApplication::translate("MainWindow", "Tool", nullptr));
+        inversionButton->setText(QCoreApplication::translate("MainWindow", "Inversion", nullptr));
 #if QT_CONFIG(tooltip)
-        pushButton_3->setToolTip(QString());
+        removeBGButton->setToolTip(QString());
 #endif // QT_CONFIG(tooltip)
-        pushButton_3->setText(QCoreApplication::translate("MainWindow", "Tool", nullptr));
+        removeBGButton->setText(QCoreApplication::translate("MainWindow", "Remove background", nullptr));
         menuSettings->setTitle(QCoreApplication::translate("MainWindow", "menu", nullptr));
     } // retranslateUi
 

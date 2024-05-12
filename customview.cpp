@@ -24,3 +24,13 @@ void CustomView::wheelEvent(QWheelEvent *event)
     }
     emit scaleChanged();
 }
+
+void CustomView::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        QPoint viewPoint = event->pos();
+        QPointF scenePoint = mapToScene(viewPoint);
+        emit mouseClick(scenePoint.toPoint());
+    }
+    QGraphicsView::mousePressEvent(event);
+}

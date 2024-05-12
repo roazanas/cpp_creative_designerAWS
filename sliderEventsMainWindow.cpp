@@ -24,6 +24,9 @@ void MainWindow::on_noiseSlider_sliderReleased()
 
     temp = applyEffects();
 
+    this->amountOfLightFlag = false;
+    updateInfo();
+
     QPixmap pixmap = QPixmap::fromImage(temp);
     scene->clear();
     scene->addPixmap(pixmap);
@@ -46,6 +49,9 @@ void MainWindow::on_saturationSlider_sliderReleased()
     this->effects["saturation"] = {&MainWindow::addSaturation, transperancy};
 
     temp = applyEffects();
+
+    this->amountOfLightFlag = false;
+    updateInfo();
 
     QPixmap pixmap = QPixmap::fromImage(temp);
     scene->clear();

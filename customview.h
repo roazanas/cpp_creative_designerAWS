@@ -11,13 +11,18 @@ class CustomView : public QGraphicsView
 public:
     explicit CustomView(QWidget *parent = nullptr);
     QString getScaleInfo() const;
-protected:
-    virtual void wheelEvent(QWheelEvent *event);
-    using QGraphicsView::QGraphicsView;
-private:
-    double currentScale = 1.0; // переменная только для отображения процентов в тексте
+
 signals:
     void scaleChanged();
+    void mouseClick(QPoint point);
+
+protected:
+    virtual void wheelEvent(QWheelEvent *event);
+    virtual void mousePressEvent(QMouseEvent *event);
+
+    using QGraphicsView::QGraphicsView;
+private:
+    double currentScale = 1.0;
 };
 
 #endif // CUSTOMVIEW_H
