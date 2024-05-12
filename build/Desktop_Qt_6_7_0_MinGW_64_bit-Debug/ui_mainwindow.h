@@ -48,7 +48,8 @@ public:
     QSpacerItem *horizontalSpacer;
     QVBoxLayout *verticalLayout;
     QSpacerItem *verticalSpacer;
-    QPushButton *pushButton;
+    QLabel *label;
+    QSpacerItem *verticalSpacer_3;
     QHBoxLayout *horizontalLayout_3;
     QPushButton *loadButton;
     QPushButton *saveButton;
@@ -154,40 +155,41 @@ public:
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(25);
         verticalLayout->setObjectName("verticalLayout");
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Preferred);
 
         verticalLayout->addItem(verticalSpacer);
 
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName("pushButton");
-        pushButton->setEnabled(false);
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8("res/namename.jpg"), QSize(), QIcon::Normal, QIcon::Off);
-        icon1.addFile(QString::fromUtf8("res/namename.jpg"), QSize(), QIcon::Disabled, QIcon::Off);
-        pushButton->setIcon(icon1);
-        pushButton->setIconSize(QSize(200, 100));
-        pushButton->setCheckable(false);
-        pushButton->setAutoRepeat(false);
-        pushButton->setAutoExclusive(false);
-        pushButton->setAutoDefault(false);
-        pushButton->setFlat(true);
+        label = new QLabel(centralwidget);
+        label->setObjectName("label");
+        QSizePolicy sizePolicy2(QSizePolicy::Policy::Ignored, QSizePolicy::Policy::Ignored);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy2);
+        label->setMinimumSize(QSize(194, 104));
+        label->setPixmap(QPixmap(QString::fromUtf8("res/main2.png")));
+        label->setScaledContents(true);
 
-        verticalLayout->addWidget(pushButton);
+        verticalLayout->addWidget(label);
+
+        verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        verticalLayout->addItem(verticalSpacer_3);
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName("horizontalLayout_3");
         loadButton = new QPushButton(centralwidget);
         loadButton->setObjectName("loadButton");
-        QSizePolicy sizePolicy2(QSizePolicy::Policy::Maximum, QSizePolicy::Policy::Minimum);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(loadButton->sizePolicy().hasHeightForWidth());
-        loadButton->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy3(QSizePolicy::Policy::Maximum, QSizePolicy::Policy::Minimum);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(loadButton->sizePolicy().hasHeightForWidth());
+        loadButton->setSizePolicy(sizePolicy3);
         loadButton->setMinimumSize(QSize(50, 50));
         loadButton->setAcceptDrops(false);
-        QIcon icon2;
-        icon2.addFile(QString::fromUtf8("res/icon.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        loadButton->setIcon(icon2);
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8("res/icon.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        loadButton->setIcon(icon1);
         loadButton->setIconSize(QSize(40, 40));
         loadButton->setCheckable(true);
         loadButton->setAutoDefault(false);
@@ -198,12 +200,12 @@ public:
         saveButton = new QPushButton(centralwidget);
         saveButton->setObjectName("saveButton");
         saveButton->setEnabled(false);
-        sizePolicy2.setHeightForWidth(saveButton->sizePolicy().hasHeightForWidth());
-        saveButton->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(saveButton->sizePolicy().hasHeightForWidth());
+        saveButton->setSizePolicy(sizePolicy3);
         saveButton->setMinimumSize(QSize(50, 50));
-        QIcon icon3;
-        icon3.addFile(QString::fromUtf8("res/folder-file-alt-svgrepo-com.gif"), QSize(), QIcon::Normal, QIcon::Off);
-        saveButton->setIcon(icon3);
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8("res/folder-file-alt-svgrepo-com.gif"), QSize(), QIcon::Normal, QIcon::Off);
+        saveButton->setIcon(icon2);
         saveButton->setIconSize(QSize(40, 40));
         saveButton->setFlat(false);
 
@@ -214,12 +216,12 @@ public:
 
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName("groupBox");
-        groupBox->setEnabled(true);
-        QSizePolicy sizePolicy3(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
-        groupBox->setSizePolicy(sizePolicy3);
+        groupBox->setEnabled(false);
+        QSizePolicy sizePolicy4(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
+        groupBox->setSizePolicy(sizePolicy4);
         QFont font;
         font.setFamilies({QString::fromUtf8("Yu Gothic")});
         font.setPointSize(12);
@@ -243,11 +245,11 @@ public:
 
         noiseSlider = new QSlider(groupBox);
         noiseSlider->setObjectName("noiseSlider");
-        QSizePolicy sizePolicy4(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Fixed);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(noiseSlider->sizePolicy().hasHeightForWidth());
-        noiseSlider->setSizePolicy(sizePolicy4);
+        QSizePolicy sizePolicy5(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Fixed);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(noiseSlider->sizePolicy().hasHeightForWidth());
+        noiseSlider->setSizePolicy(sizePolicy5);
         noiseSlider->setMinimumSize(QSize(120, 0));
         noiseSlider->setContextMenuPolicy(Qt::DefaultContextMenu);
         noiseSlider->setToolTipDuration(-1);
@@ -267,8 +269,8 @@ public:
 
         saturationSlider = new QSlider(groupBox);
         saturationSlider->setObjectName("saturationSlider");
-        sizePolicy4.setHeightForWidth(saturationSlider->sizePolicy().hasHeightForWidth());
-        saturationSlider->setSizePolicy(sizePolicy4);
+        sizePolicy5.setHeightForWidth(saturationSlider->sizePolicy().hasHeightForWidth());
+        saturationSlider->setSizePolicy(sizePolicy5);
         saturationSlider->setMinimumSize(QSize(120, 0));
         saturationSlider->setToolTipDuration(-1);
         saturationSlider->setLayoutDirection(Qt::LeftToRight);
@@ -294,8 +296,8 @@ public:
         groupBox_2 = new QGroupBox(centralwidget);
         groupBox_2->setObjectName("groupBox_2");
         groupBox_2->setEnabled(false);
-        sizePolicy3.setHeightForWidth(groupBox_2->sizePolicy().hasHeightForWidth());
-        groupBox_2->setSizePolicy(sizePolicy3);
+        sizePolicy4.setHeightForWidth(groupBox_2->sizePolicy().hasHeightForWidth());
+        groupBox_2->setSizePolicy(sizePolicy4);
         groupBox_2->setFont(font);
         groupBox_2->setCursor(QCursor(Qt::PointingHandCursor));
         groupBox_2->setAcceptDrops(false);
@@ -304,8 +306,8 @@ public:
         verticalLayout_5->setObjectName("verticalLayout_5");
         swapRGBButton = new QPushButton(groupBox_2);
         swapRGBButton->setObjectName("swapRGBButton");
-        sizePolicy3.setHeightForWidth(swapRGBButton->sizePolicy().hasHeightForWidth());
-        swapRGBButton->setSizePolicy(sizePolicy3);
+        sizePolicy4.setHeightForWidth(swapRGBButton->sizePolicy().hasHeightForWidth());
+        swapRGBButton->setSizePolicy(sizePolicy4);
         swapRGBButton->setMinimumSize(QSize(155, 45));
         swapRGBButton->setCheckable(false);
 
@@ -313,8 +315,8 @@ public:
 
         pushButton_5 = new QPushButton(groupBox_2);
         pushButton_5->setObjectName("pushButton_5");
-        sizePolicy3.setHeightForWidth(pushButton_5->sizePolicy().hasHeightForWidth());
-        pushButton_5->setSizePolicy(sizePolicy3);
+        sizePolicy4.setHeightForWidth(pushButton_5->sizePolicy().hasHeightForWidth());
+        pushButton_5->setSizePolicy(sizePolicy4);
         pushButton_5->setMinimumSize(QSize(155, 45));
         pushButton_5->setCheckable(false);
 
@@ -322,8 +324,8 @@ public:
 
         pushButton_3 = new QPushButton(groupBox_2);
         pushButton_3->setObjectName("pushButton_3");
-        sizePolicy3.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
-        pushButton_3->setSizePolicy(sizePolicy3);
+        sizePolicy4.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
+        pushButton_3->setSizePolicy(sizePolicy4);
         pushButton_3->setMinimumSize(QSize(155, 45));
         pushButton_3->setCheckable(false);
 
@@ -349,7 +351,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName("menuBar");
-        menuBar->setGeometry(QRect(0, 0, 1043, 21));
+        menuBar->setGeometry(QRect(0, 0, 1043, 25));
         menuSettings = new QMenu(menuBar);
         menuSettings->setObjectName("menuSettings");
         MainWindow->setMenuBar(menuBar);
@@ -361,7 +363,6 @@ public:
 
         retranslateUi(MainWindow);
 
-        pushButton->setDefault(false);
         loadButton->setDefault(false);
         saveButton->setDefault(false);
 
@@ -378,7 +379,7 @@ public:
         infoPlain->setDocumentTitle(QString());
         infoPlain->setPlainText(QString());
         infoPlain->setPlaceholderText(QCoreApplication::translate("MainWindow", "Upload image by pressing icon button", nullptr));
-        pushButton->setText(QString());
+        label->setText(QString());
 #if QT_CONFIG(tooltip)
         loadButton->setToolTip(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\263\321\200\321\203\320\267\320\270\321\202\321\214 \320\270\320\267\320\276\320\261\321\200\320\260\320\266\320\265\320\275\320\270\321\217", nullptr));
 #endif // QT_CONFIG(tooltip)
