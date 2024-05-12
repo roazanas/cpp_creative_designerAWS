@@ -23,53 +23,30 @@ QImage MainWindow::addSaturation(QImage& image, double k) {
     return saturation;
 }
 
-// QImage MainWindow::noiseGenerating() {
-//     int width = originalImage.width();
-//     int height = originalImage.height();
-//     QImage noise(width, height, QImage::Format_ARGB32);
-//     QByteArray noiseData(width * height * 4, 0);
-
-//     // Количество потоков (можно экспериментировать с этим значением)
-//     int numThreads = QThread::idealThreadCount();
-
-//     // Создание и запуск потоков
-//     QList<NoiseGenerator*> threads;
-//     int chunkSize = height / numThreads;
-//     for (int i = 0; i < numThreads; ++i) {
-//         int startY = i * chunkSize;
-//         int endY = (i == numThreads - 1) ? height : startY + chunkSize;
-//         NoiseGenerator* thread = new NoiseGenerator(startY, endY, width, noiseData);
-//         threads.append(thread);
-//         thread->start();
-//     }
-
-//     // Ожидание завершения всех потоков
-//     for (auto thread : threads) {
-//         thread->wait();
-//         delete thread;
-//     }
-
-//     // Заполнение изображения
-//     for (int y = 0; y < height; y++) {
-//         memcpy(noise.scanLine(y), noiseData.constData() + y * width * 4, width * 4);
-//     }
-
-//     return noise;
-// }
-
-
 QImage MainWindow::noiseGenerating() {
     int width = originalImage.width();
     int height = originalImage.height();
     QImage noise(width, height, QImage::Format_ARGB32);
-
-    // Генерация массива шума
     QByteArray noiseData(width * height * 4, 0);
-    QRandomGenerator generator;
-    for (int i = 0; i < noiseData.size(); i += 4) {
-        uint rgb = generator.bounded(256);
-        noiseData[i] = noiseData[i+1] = noiseData[i+2] = rgb;
-        noiseData[i+3] = 255;
+
+    // Количество потоков (можно экспериментировать с этим значением)
+    int numThreads = QThread::idealThreadCount();
+
+    // Создание и запуск потоков
+    QList<NoiseGenerator*> threads;
+    int chunkSize = height / numThreads;
+    for (int i = 0; i < numThreads; ++i) {
+        int startY = i * chunkSize;
+        int endY = (i == numThreads - 1) ? height : startY + chunkSize;
+        NoiseGenerator* thread = new NoiseGenerator(startY, endY, width, noiseData);
+        threads.append(thread);
+        thread->start();
+    }
+
+    // Ожидание завершения всех потоков
+    for (auto thread : threads) {
+        thread->wait();
+        delete thread;
     }
 
     // Заполнение изображения
@@ -79,6 +56,29 @@ QImage MainWindow::noiseGenerating() {
 
     return noise;
 }
+
+
+// QImage MainWindow::noiseGenerating() {
+//     int width = originalImage.width();
+//     int height = originalImage.height();
+//     QImage noise(width, height, QImage::Format_ARGB32);
+
+//     // Генерация массива шума
+//     QByteArray noiseData(width * height * 4, 0);
+//     QRandomGenerator generator;
+//     for (int i = 0; i < noiseData.size(); i += 4) {
+//         uint rgb = generator.bounded(256);
+//         noiseData[i] = noiseData[i+1] = noiseData[i+2] = rgb;
+//         noiseData[i+3] = 255;
+//     }
+
+//     // Заполнение изображения
+//     for (int y = 0; y < height; y++) {
+//         memcpy(noise.scanLine(y), noiseData.constData() + y * width * 4, width * 4);
+//     }
+
+//     return noise;
+// }
 
 QColor MainWindow::mediumColor(QColor colorRGB1, QColor colorRGB2, double k)
 {
@@ -124,4 +124,23 @@ void MainWindow::setTimeToLastItem()
     QString currentDateTime = QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm:ss");
     ui->activityLog->item(counter)->setToolTip(currentDateTime);
     counter++;
+}
+
+QImage MainWindow::inversionImage(QImage& image, double /*unused*/)
+{
+    int width = image.width();
+    int height = image.height();
+    QImage invertImage = image.copy();
+
+    for (int i = 0; i < width; i++)
+    {
+        for (int j = 0; j < height; j++)
+        {
+            int r = invertImage.pixelColor(i,j).red();
+            int g = invertImage.pixelColor(i,j).green();
+            int b = invertImage.pixelColor(i,j).blue();
+            invertImage.setPixelColor(i,j,QColor(255-r,255-g,255-b));
+        }
+    }
+    return invertImage;
 }
