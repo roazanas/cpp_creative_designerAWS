@@ -49,6 +49,8 @@ private slots:
     void on_noiseSlider_valueChanged(int value);
 
     void on_saturationSlider_valueChanged(int value);
+    void on_inversionButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Info* info;
@@ -61,7 +63,8 @@ private:
     QMap<std::string, std::pair<QImage, double>> layers;
     QMap<std::string, std::pair<EffectFunction, double>> effects;
 
-    bool invertationFlag;
+    bool swapRGBFlag;
+    bool inversionFlag;
     QImage noise;
     QImage originalImage;
     QImage viewImage;
@@ -86,5 +89,7 @@ private:
     QImage combiningImagesSameSize(const QImage &image1, const QImage &image2, double k = 0.5);
 
     QImage applyRgbSwap(QImage& image, double /*unused*/) {return image.rgbSwapped();}
+
+    QImage inversionImage(QImage& image, double /*unused*/);
 };
 #endif // MAINWINDOW_H

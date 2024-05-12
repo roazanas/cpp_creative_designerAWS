@@ -1,7 +1,8 @@
 #include "noisegenerator.h"
 
 void NoiseGenerator::run() {
-    QRandomGenerator generator;
+    quint64 threadId = reinterpret_cast<quint64>(QThread::currentThreadId());
+    QRandomGenerator generator(threadId + time(NULL));
     for (int y = startY; y < endY; y++) {
         for (int x = 0; x < width; x++) {
             int i = (y * width + x) * 4;

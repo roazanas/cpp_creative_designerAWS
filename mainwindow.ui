@@ -311,7 +311,7 @@
       <item>
        <widget class="QGroupBox" name="groupBox">
         <property name="enabled">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -546,7 +546,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_5">
+          <widget class="QPushButton" name="inversionButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -563,7 +563,7 @@
             <string/>
            </property>
            <property name="text">
-            <string>Tool</string>
+            <string>Inversion</string>
            </property>
            <property name="checkable">
             <bool>false</bool>
@@ -596,7 +596,7 @@
           </widget>
          </item>
         </layout>
-        <zorder>pushButton_5</zorder>
+        <zorder>inversionButton</zorder>
         <zorder>pushButton_3</zorder>
         <zorder>swapRGBButton</zorder>
        </widget>

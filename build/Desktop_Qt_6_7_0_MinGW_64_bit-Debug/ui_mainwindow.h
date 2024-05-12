@@ -61,7 +61,7 @@ public:
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout_5;
     QPushButton *swapRGBButton;
-    QPushButton *pushButton_5;
+    QPushButton *inversionButton;
     QPushButton *pushButton_3;
     QSpacerItem *verticalSpacer_2;
     QSpacerItem *horizontalSpacer_4;
@@ -214,7 +214,7 @@ public:
 
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName("groupBox");
-        groupBox->setEnabled(true);
+        groupBox->setEnabled(false);
         QSizePolicy sizePolicy3(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
         sizePolicy3.setHorizontalStretch(0);
         sizePolicy3.setVerticalStretch(0);
@@ -311,14 +311,14 @@ public:
 
         verticalLayout_5->addWidget(swapRGBButton);
 
-        pushButton_5 = new QPushButton(groupBox_2);
-        pushButton_5->setObjectName("pushButton_5");
-        sizePolicy3.setHeightForWidth(pushButton_5->sizePolicy().hasHeightForWidth());
-        pushButton_5->setSizePolicy(sizePolicy3);
-        pushButton_5->setMinimumSize(QSize(155, 45));
-        pushButton_5->setCheckable(false);
+        inversionButton = new QPushButton(groupBox_2);
+        inversionButton->setObjectName("inversionButton");
+        sizePolicy3.setHeightForWidth(inversionButton->sizePolicy().hasHeightForWidth());
+        inversionButton->setSizePolicy(sizePolicy3);
+        inversionButton->setMinimumSize(QSize(155, 45));
+        inversionButton->setCheckable(false);
 
-        verticalLayout_5->addWidget(pushButton_5);
+        verticalLayout_5->addWidget(inversionButton);
 
         pushButton_3 = new QPushButton(groupBox_2);
         pushButton_3->setObjectName("pushButton_3");
@@ -329,7 +329,7 @@ public:
 
         verticalLayout_5->addWidget(pushButton_3);
 
-        pushButton_5->raise();
+        inversionButton->raise();
         pushButton_3->raise();
         swapRGBButton->raise();
 
@@ -420,9 +420,9 @@ public:
 #endif // QT_CONFIG(tooltip)
         swapRGBButton->setText(QCoreApplication::translate("MainWindow", "Swap RGB", nullptr));
 #if QT_CONFIG(tooltip)
-        pushButton_5->setToolTip(QString());
+        inversionButton->setToolTip(QString());
 #endif // QT_CONFIG(tooltip)
-        pushButton_5->setText(QCoreApplication::translate("MainWindow", "Tool", nullptr));
+        inversionButton->setText(QCoreApplication::translate("MainWindow", "Inversion", nullptr));
 #if QT_CONFIG(tooltip)
         pushButton_3->setToolTip(QString());
 #endif // QT_CONFIG(tooltip)
