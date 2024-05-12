@@ -59,6 +59,8 @@ public:
     QSlider *noiseSlider;
     QLabel *saturationLabel;
     QSlider *saturationSlider;
+    QLabel *thresholdLabel;
+    QSlider *thresholdSlider;
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout_5;
     QPushButton *swapRGBButton;
@@ -142,6 +144,9 @@ public:
         image = new CustomView(centralwidget);
         image->setObjectName("image");
         image->viewport()->setProperty("cursor", QVariant(QCursor(Qt::ArrowCursor)));
+        image->setInteractive(true);
+        image->setCacheMode(QGraphicsView::CacheNone);
+        image->setOptimizationFlags(QGraphicsView::DontAdjustForAntialiasing|QGraphicsView::DontSavePainterState|QGraphicsView::IndirectPainting);
 
         horizontalLayout_2->addWidget(image);
 
@@ -287,10 +292,24 @@ public:
 
         verticalLayout_4->addWidget(saturationSlider);
 
-        noiseLabel->raise();
-        saturationLabel->raise();
-        noiseSlider->raise();
-        saturationSlider->raise();
+        thresholdLabel = new QLabel(groupBox);
+        thresholdLabel->setObjectName("thresholdLabel");
+
+        verticalLayout_4->addWidget(thresholdLabel);
+
+        thresholdSlider = new QSlider(groupBox);
+        thresholdSlider->setObjectName("thresholdSlider");
+        sizePolicy5.setHeightForWidth(thresholdSlider->sizePolicy().hasHeightForWidth());
+        thresholdSlider->setSizePolicy(sizePolicy5);
+        thresholdSlider->setMinimumSize(QSize(120, 0));
+        thresholdSlider->setMaximum(255);
+        thresholdSlider->setSingleStep(0);
+        thresholdSlider->setPageStep(0);
+        thresholdSlider->setValue(30);
+        thresholdSlider->setOrientation(Qt::Horizontal);
+
+        verticalLayout_4->addWidget(thresholdSlider);
+
 
         verticalLayout->addWidget(groupBox);
 
@@ -419,6 +438,7 @@ public:
 #if QT_CONFIG(accessibility)
         saturationSlider->setAccessibleDescription(QString());
 #endif // QT_CONFIG(accessibility)
+        thresholdLabel->setText(QCoreApplication::translate("MainWindow", "Threshold", nullptr));
         groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "Tools", nullptr));
 #if QT_CONFIG(tooltip)
         swapRGBButton->setToolTip(QString());

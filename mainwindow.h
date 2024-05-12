@@ -14,7 +14,9 @@
 #include <QListWidget>
 #include <QDateTime>
 #include <QThread>
-#include <queue>
+#include <stack>
+#include <unordered_set>
+#include <QMessageBox>
 #include "info.h"
 
 QT_BEGIN_NAMESPACE
@@ -41,6 +43,8 @@ private slots:
 
     void on_saturationSlider_sliderReleased();
 
+    void on_thresholdSlider_sliderReleased();
+
     void onScaleChanged();
 
     void on_info_triggered();
@@ -51,11 +55,15 @@ private slots:
 
     void on_saturationSlider_valueChanged(int value);
 
+    void on_thresholdSlider_valueChanged(int value);
+
     void on_inversionButton_clicked();
 
     void on_saveButton_clicked();
 
     void onMouseClick(QPoint point);
+
+    void on_removeBGButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -63,6 +71,7 @@ private:
     QGraphicsScene* scene;
 
     QPoint pointToFill;
+    int currentThreshold = 30;
 
 
     // Определение типа указателя на функцию для эффектов
@@ -105,7 +114,9 @@ private:
 
     QImage inversionImage(QImage& image, double /*unused*/);
 
-    QImage floodFill(QImage& image, QPoint point, QColor oldColor, QColor newColor);
+    QImage floodFill(QImage& image, QPoint point, QColor oldColor, QColor newColor, int threshold);
+
+    bool colorDifference(QColor color1, QColor color2, int threshold);
 
     QImage applyFloodFill(QImage &image, double);
 };

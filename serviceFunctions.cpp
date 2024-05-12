@@ -156,53 +156,83 @@ QImage MainWindow::inversionImage(QImage& image, double /*unused*/)
     return invertImage;
 }
 
-QImage MainWindow::floodFill(QImage& image, QPoint point, QColor oldColor, QColor newColor)
+QImage MainWindow::floodFill(QImage& image, QPoint point, QColor oldColor, QColor newColor, int threshold)
 {
     int width = image.width();
     int height = image.height();
-    QImage filledImage = image.copy();
-    int x = point.x();
-    int y = point.y();
 
-    if (x < 0 || x >= width || y < 0 || y >= height || filledImage.pixelColor(x, y) != oldColor)
+    if (point.x() < 0 || point.x() >= width || point.y() < 0 || point.y() >= height)
     {
-        return filledImage;
+        return image;
     }
 
-    std::queue<QPoint> q;
-    q.push(point);
-
-    while (!q.empty())
+    if (!colorDifference(image.pixelColor(point), oldColor, threshold))
     {
-        QPoint p = q.front();
-        q.pop();
+        return image;
+    }
+
+    QImage filledImage = image;
+    std::stack<QPoint> points;
+    points.push(point);
+
+
+    struct QPointHash
+    {
+        std::size_t operator()(const QPoint& p) const
+        {
+            return std::hash<int>()(p.x()) ^ std::hash<int>()(p.y());
+        }
+    };
+
+    // использование std::set для отслеживания посещенных пикселей
+    std::unordered_set<QPoint, QPointHash> visitedPixels;
+
+    while (!points.empty())
+    {
+        QPoint p = points.top();
+        points.pop();
+
+        // пропуск уже посещенных пикселей
+        if (visitedPixels.find(p) != visitedPixels.end())
+        {
+            continue;
+        }
+        visitedPixels.insert(p);
 
         filledImage.setPixelColor(p, newColor);
 
-        if (p.x() > 0 && filledImage.pixelColor(p.x() - 1, p.y()) == oldColor)
+        // добавление соседних пикселей в стек
+        if (p.x() > 0 && colorDifference(image.pixelColor(p), oldColor, threshold))
         {
-            q.push(QPoint(p.x() - 1, p.y()));
+            points.push(QPoint(p.x() - 1, p.y()));
         }
-        if (p.x() < width - 1 && filledImage.pixelColor(p.x() + 1, p.y()) == oldColor)
+        if (p.x() < width - 1 && colorDifference(image.pixelColor(p), oldColor, threshold))
         {
-            q.push(QPoint(p.x() + 1, p.y()));
+            points.push(QPoint(p.x() + 1, p.y()));
         }
-        if (p.y() > 0 && filledImage.pixelColor(p.x(), p.y() - 1) == oldColor)
+        if (p.y() > 0 && colorDifference(image.pixelColor(p), oldColor, threshold))
         {
-            q.push(QPoint(p.x(), p.y() - 1));
+            points.push(QPoint(p.x(), p.y() - 1));
         }
-        if (p.y() < height - 1 && filledImage.pixelColor(p.x(), p.y() + 1) == oldColor)
+        if (p.y() < height - 1 && colorDifference(image.pixelColor(p), oldColor, threshold))
         {
-            q.push(QPoint(p.x(), p.y() + 1));
+            points.push(QPoint(p.x(), p.y() + 1));
         }
     }
 
     return filledImage;
 }
 
+bool MainWindow::colorDifference(QColor color1, QColor color2, int threshold) {
+    bool rDiff = abs(color1.red() - color2.red()) <= threshold;
+    bool gDiff = abs(color1.green() - color2.green()) <= threshold;
+    bool bDiff = abs(color1.blue() - color2.blue()) <= threshold;
+    return rDiff && gDiff && bDiff;
+}
+
 QImage MainWindow::applyFloodFill(QImage &image, double /*unused*/)
 {
-    return floodFill(image, pointToFill, image.pixelColor(pointToFill), QColor(255, 255, 255, 0));
+    return floodFill(image, pointToFill, image.pixelColor(pointToFill), QColor(255, 255, 255, 0), currentThreshold);
 }
 
 void MainWindow::amountOfLight()

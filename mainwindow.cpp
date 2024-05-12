@@ -35,8 +35,10 @@ void MainWindow::loadImage(QString fileName)
     // перемещаем слайдеры в первоначальное положение
     ui->noiseSlider->setValue(0);
     ui->saturationSlider->setValue(ui->saturationSlider->maximum()/2);
-    ui->noiseLabel->setText("Noise ("+QString("%1%").arg(0)+")");
+    ui->thresholdSlider->setValue(30);
+    ui->noiseLabel->setText("Noise (0%)");
     ui->saturationLabel->setText("Saturation ("+QString("%1%").arg(ui->saturationSlider->maximum()/2)+")");
+    ui->thresholdLabel->setText("Threshold (30)");
 
     currentImagePath = fileName;
     originalImage.load(fileName);
@@ -63,8 +65,8 @@ QString MainWindow::getImageInfo()
     QString result;
     QStringList filePathArray = currentImagePath.split("/");
     QString sizeString = QString("(%1 x %2)").arg(originalImage.width()).arg(originalImage.height());
-    result += "• Имя файла: \n\t" + filePathArray.last() + "\n\n";
-    result += "• Размеры изображения: \n\t" + sizeString + "\n\n";
+    result += "• File name: \n\t" + filePathArray.last() + "\n\n";
+    result += "• Image size: \n\t" + sizeString + "\n\n";
     result += ui->image->getScaleInfo() + "\n\n";
     if (!amountOfLightFlag)
     {

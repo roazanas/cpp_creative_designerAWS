@@ -61,6 +61,13 @@ void MainWindow::on_saturationSlider_sliderReleased()
     setTimeToLastItem();
 }
 
+void MainWindow::on_thresholdSlider_sliderReleased()
+{
+    currentThreshold = ui->thresholdSlider->value();
+    ui->activityLog->addItem("Threshold level - "+QString("%1").arg(currentThreshold));
+    setTimeToLastItem();
+}
+
 void MainWindow::on_noiseSlider_valueChanged(int value)
 {
     ui->noiseLabel->setText("Noise ("+QString("%1%").arg(value)+")");
@@ -71,3 +78,7 @@ void MainWindow::on_saturationSlider_valueChanged(int value)
     ui->saturationLabel->setText("Saturation ("+QString("%1%").arg(value)+")");
 }
 
+void MainWindow::on_thresholdSlider_valueChanged(int value)
+{
+    ui->thresholdLabel->setText("Threshold ("+QString("%1").arg(value)+")");
+}

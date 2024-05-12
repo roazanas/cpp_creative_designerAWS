@@ -4,7 +4,7 @@ CustomView::CustomView(QWidget *parent) : QGraphicsView(parent) {}
 
 QString CustomView::getScaleInfo() const
 {
-    return QString("• Масштаб: \n\t%1%").arg(currentScale * 100);
+    return QString("• Scale: \n\t%1%").arg(currentScale * 100);
 }
 
 void CustomView::wheelEvent(QWheelEvent *event)

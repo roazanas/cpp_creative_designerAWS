@@ -103,3 +103,16 @@ void MainWindow::on_inversionButton_clicked()
     ui->activityLog->addItem("Inversion image");
     setTimeToLastItem();
 }
+
+void MainWindow::on_removeBGButton_clicked()
+{
+    if (ui->removeBGButton->isChecked()) {
+        QMessageBox::information(
+            this,
+            tr("Designer AWS"),
+            tr("Click on the desired pixel to delete same-colored area") );
+        ui->image->setCursor(Qt::CursorShape::CrossCursor); // Более подходящий курсор
+    } else {
+        ui->image->setCursor(Qt::CursorShape::ArrowCursor); // Возвращение стандартного курсора
+    }
+}
