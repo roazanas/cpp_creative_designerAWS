@@ -26,8 +26,8 @@
    <string>Designer AWS</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="applications-graphics">
-    <normaloff>res/icon.svg</normaloff>res/icon.svg</iconset>
+   <iconset resource="res/designerAWS.qrc">
+    <normaloff>:/icon.svg</normaloff>:/icon.svg</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -204,7 +204,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>res/main2.png</pixmap>
+         <pixmap resource="res/designerAWS.qrc">:/main2.png</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -250,8 +250,8 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>res/icon.svg</normaloff>res/icon.svg</iconset>
+           <iconset resource="res/designerAWS.qrc">
+            <normaloff>:/icon.svg</normaloff>:/icon.svg</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -273,6 +273,41 @@
           </property>
           <property name="flat">
            <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="manyLoadButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="res/designerAWS.qrc">
+            <normaloff>:/loads.svg</normaloff>:/loads.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>40</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="shortcut">
+           <string>Ctrl+Shift+O</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -300,8 +335,8 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>res/folder-file-alt-svgrepo-com.gif</normaloff>res/folder-file-alt-svgrepo-com.gif</iconset>
+           <iconset resource="res/designerAWS.qrc">
+            <normaloff>:/folder-file-alt-svgrepo-com.gif</normaloff>:/folder-file-alt-svgrepo-com.gif</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -700,16 +735,10 @@
     </property>
     <addaction name="separator"/>
     <addaction name="info"/>
-    <addaction name="help"/>
    </widget>
    <addaction name="menuSettings"/>
   </widget>
   <action name="actioninfo">
-   <property name="text">
-    <string>help</string>
-   </property>
-  </action>
-  <action name="help">
    <property name="text">
     <string>help</string>
    </property>
@@ -727,6 +756,8 @@
    <header location="global">customview.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="res/designerAWS.qrc"/>
+ </resources>
  <connections/>
 </ui>

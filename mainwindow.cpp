@@ -60,6 +60,68 @@ void MainWindow::loadImage(QString fileName)
     setTimeToLastItem();
 }
 
+void MainWindow::manyLoadImages(QStringList fileNames)
+{
+    if (fileNames.isEmpty())
+    {
+        return;
+    }
+
+    // Создаем диалог прогресса
+    QProgressDialog progress("Обработка изображений...", "Отмена", 0, fileNames.size(), this);
+    progress.setWindowModality(Qt::WindowModal); // Делаем диалог модальным
+
+    int imageCount = fileNames.size();
+    int width = QImage(fileNames[0]).width(); // Предполагаем, что все изображения одинакового размера
+    int height = QImage(fileNames[0]).height();
+
+    // Создаем массив для суммирования цветов
+    std::vector<std::vector<std::vector<double>>> sumColors(height, std::vector<std::vector<double>>(width, std::vector<double>(4, 0.0))); // 4 канала: R, G, B, A
+
+    // Суммируем цвета всех изображений
+    int processedCount = 0;
+    for (const QString& fileName : fileNames) {
+        if (progress.wasCanceled()) {
+            return; // Прерываем обработку, если пользователь нажал "Отмена"
+        }
+        QImage image(fileName);
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                QColor color = image.pixelColor(x, y);
+                sumColors[y][x][0] += color.red();
+                sumColors[y][x][1] += color.green();
+                sumColors[y][x][2] += color.blue();
+                sumColors[y][x][3] += color.alpha();
+            }
+        }
+        processedCount++;
+
+        // Обновляем прогрессбар каждые 10 обработанных изображений
+        if (processedCount % 10 == 0) {
+            progress.setValue(processedCount);
+            QApplication::processEvents(); // Обрабатываем события, чтобы прогрессбар обновился
+        }
+    }
+
+    // Создаем итоговое изображение
+    QImage tempImage(width, height, QImage::Format_ARGB32);
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            // Усредняем цвет, предотвращая переполнение
+            int r = qBound(0, static_cast<int>(sumColors[y][x][0] / imageCount), 255);
+            int g = qBound(0, static_cast<int>(sumColors[y][x][1] / imageCount), 255);
+            int b = qBound(0, static_cast<int>(sumColors[y][x][2] / imageCount), 255);
+            int a = qBound(0, static_cast<int>(sumColors[y][x][3] / imageCount), 255);
+            tempImage.setPixelColor(x, y, QColor(r, g, b, a));
+        }
+    }
+    progress.setValue(fileNames.size()); // Завершаем прогрессбар
+
+    tempImage.save("temp.png");
+    loadImage("temp.png");
+    QFile::remove("temp.png");
+}
+
 QString MainWindow::getImageInfo()
 {
     QString result;

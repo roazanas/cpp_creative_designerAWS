@@ -220,7 +220,7 @@ QImage MainWindow::floodFill(QImage& image, QPoint point, QColor oldColor, QColo
         points.pop();
 
         // пропуск уже посещенных пикселей
-        if (visitedPixels.find(p) != visitedPixels.end())
+        if (visitedPixels.find(p) != visitedPixels.end() || image.pixelColor(p).alpha() == 0)
         {
             continue;
         }

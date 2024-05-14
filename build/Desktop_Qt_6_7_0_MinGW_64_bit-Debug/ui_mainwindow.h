@@ -34,7 +34,6 @@ class Ui_MainWindow
 {
 public:
     QAction *actioninfo;
-    QAction *help;
     QAction *info;
     QWidget *centralwidget;
     QHBoxLayout *horizontalLayout;
@@ -52,6 +51,7 @@ public:
     QSpacerItem *verticalSpacer_3;
     QHBoxLayout *horizontalLayout_3;
     QPushButton *loadButton;
+    QPushButton *manyLoadButton;
     QPushButton *saveButton;
     QGroupBox *groupBox;
     QVBoxLayout *verticalLayout_4;
@@ -79,17 +79,10 @@ public:
         MainWindow->setMinimumSize(QSize(800, 800));
         MainWindow->setMaximumSize(QSize(16777215, 16777215));
         QIcon icon;
-        QString iconThemeName = QString::fromUtf8("applications-graphics");
-        if (QIcon::hasThemeIcon(iconThemeName)) {
-            icon = QIcon::fromTheme(iconThemeName);
-        } else {
-            icon.addFile(QString::fromUtf8("res/icon.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        }
+        icon.addFile(QString::fromUtf8(":/icon.svg"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
         actioninfo = new QAction(MainWindow);
         actioninfo->setObjectName("actioninfo");
-        help = new QAction(MainWindow);
-        help->setObjectName("help");
         info = new QAction(MainWindow);
         info->setObjectName("info");
         centralwidget = new QWidget(MainWindow);
@@ -172,7 +165,7 @@ public:
         sizePolicy2.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
         label->setSizePolicy(sizePolicy2);
         label->setMinimumSize(QSize(194, 104));
-        label->setPixmap(QPixmap(QString::fromUtf8("res/main2.png")));
+        label->setPixmap(QPixmap(QString::fromUtf8(":/main2.png")));
         label->setScaledContents(true);
 
         verticalLayout->addWidget(label);
@@ -192,15 +185,26 @@ public:
         loadButton->setSizePolicy(sizePolicy3);
         loadButton->setMinimumSize(QSize(50, 50));
         loadButton->setAcceptDrops(false);
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8("res/icon.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        loadButton->setIcon(icon1);
+        loadButton->setIcon(icon);
         loadButton->setIconSize(QSize(40, 40));
         loadButton->setCheckable(true);
         loadButton->setAutoDefault(false);
         loadButton->setFlat(false);
 
         horizontalLayout_3->addWidget(loadButton);
+
+        manyLoadButton = new QPushButton(centralwidget);
+        manyLoadButton->setObjectName("manyLoadButton");
+        sizePolicy3.setHeightForWidth(manyLoadButton->sizePolicy().hasHeightForWidth());
+        manyLoadButton->setSizePolicy(sizePolicy3);
+        manyLoadButton->setMinimumSize(QSize(50, 50));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/loads.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        manyLoadButton->setIcon(icon1);
+        manyLoadButton->setIconSize(QSize(40, 40));
+        manyLoadButton->setCheckable(true);
+
+        horizontalLayout_3->addWidget(manyLoadButton);
 
         saveButton = new QPushButton(centralwidget);
         saveButton->setObjectName("saveButton");
@@ -209,7 +213,7 @@ public:
         saveButton->setSizePolicy(sizePolicy3);
         saveButton->setMinimumSize(QSize(50, 50));
         QIcon icon2;
-        icon2.addFile(QString::fromUtf8("res/folder-file-alt-svgrepo-com.gif"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QString::fromUtf8(":/folder-file-alt-svgrepo-com.gif"), QSize(), QIcon::Normal, QIcon::Off);
         saveButton->setIcon(icon2);
         saveButton->setIconSize(QSize(40, 40));
         saveButton->setCheckable(true);
@@ -379,7 +383,6 @@ public:
         menuBar->addAction(menuSettings->menuAction());
         menuSettings->addSeparator();
         menuSettings->addAction(info);
-        menuSettings->addAction(help);
 
         retranslateUi(MainWindow);
 
@@ -394,7 +397,6 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Designer AWS", nullptr));
         actioninfo->setText(QCoreApplication::translate("MainWindow", "help", nullptr));
-        help->setText(QCoreApplication::translate("MainWindow", "help", nullptr));
         info->setText(QCoreApplication::translate("MainWindow", "info", nullptr));
         infoPlain->setDocumentTitle(QString());
         infoPlain->setPlainText(QString());
@@ -406,6 +408,10 @@ public:
         loadButton->setText(QString());
 #if QT_CONFIG(shortcut)
         loadButton->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+O", nullptr));
+#endif // QT_CONFIG(shortcut)
+        manyLoadButton->setText(QString());
+#if QT_CONFIG(shortcut)
+        manyLoadButton->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+Shift+O", nullptr));
 #endif // QT_CONFIG(shortcut)
 #if QT_CONFIG(tooltip)
         saveButton->setToolTip(QCoreApplication::translate("MainWindow", "\320\241\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214 \320\270\320\267\320\276\320\261\321\200\320\260\320\266\320\265\320\275\320\270\320\265", nullptr));

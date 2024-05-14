@@ -16,7 +16,9 @@
 #include <QThread>
 #include <stack>
 #include <unordered_set>
+#include <cstdio>
 #include <QMessageBox>
+#include <QProgressDialog>
 #include "info.h"
 
 QT_BEGIN_NAMESPACE
@@ -34,6 +36,7 @@ public:
     ~MainWindow();
 
     void loadImage(QString fileName);
+    void manyLoadImages(QStringList fileNames);
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
 private slots:
@@ -65,6 +68,7 @@ private slots:
 
     void on_removeBGButton_clicked();
 
+    void on_manyLoadButton_clicked();
 private:
     Ui::MainWindow *ui;
     Info* info;
@@ -107,6 +111,8 @@ private:
     void amountOfLight();
 
     QColor mediumColor(QColor colorRGB1, QColor colorRGB2, double k);
+
+    QColor mediumColor2(QColor colorRGB1, QColor colorRGB2);
 
     QImage combiningImagesSameSize(const QImage &image1, const QImage &image2, double k = 0.5);
 

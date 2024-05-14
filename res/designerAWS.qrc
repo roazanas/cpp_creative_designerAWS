@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>folder-file-alt-svgrepo-com.gif</file>
+        <file>icon.svg</file>
+        <file>main2.png</file>
+        <file>loads.svg</file>
+    </qresource>
+</RCC>

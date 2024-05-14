@@ -34,8 +34,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    res/1.jpeg \
-    res/2.jpg \
-    res/icon.svg \
-    res/stub.jpg
+RESOURCES += \
+    res/designerAWS.qrc
+
+RC_FILE += designerAWS.rc

@@ -4,9 +4,9 @@
 void MainWindow::on_loadButton_clicked()
 {
     // даёт юзеру выбрать изображение и возвращает его полный путь
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Выберите изображение"),
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Choose image"),
                                                     QString(),
-                                                    tr("Изображения (*.png *.jpg *.jpeg)"));
+                                                    tr("Images (*.png *.jpg *.jpeg *.ico *.svg *.gif)"));
     ui->loadButton->setChecked(false);
     if (!fileName.isEmpty())
     {
@@ -14,12 +14,23 @@ void MainWindow::on_loadButton_clicked()
     }
 }
 
+void MainWindow::on_manyLoadButton_clicked()
+{
+    QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Choose images"),
+                                                     QString(),
+                                                     tr("Images (*.png *.jpg *.jpeg *.ico *.svg *.gif)"));
+    ui->manyLoadButton->setChecked(false);
+    if (!fileNames.isEmpty())
+    {
+        manyLoadImages(fileNames);
+    }
+}
 
 void MainWindow::on_saveButton_clicked()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Сохранить изображение"),
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save image"),
                                                     QString(),
-                                                    tr("Изображения (*.png *.jpg *.jpeg)"));
+                                                    tr("Images (*.png *.jpg *.jpeg *.ico *.svg *.gif)"));
     ui->saveButton->setChecked(false);
     if (!fileName.isEmpty())
     {
