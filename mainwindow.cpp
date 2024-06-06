@@ -76,28 +76,44 @@ void MainWindow::manyLoadImages(QStringList fileNames)
     int height = QImage(fileNames[0]).height();
 
     // Создаем массив для суммирования цветов
-    std::vector<std::vector<std::vector<double>>> sumColors(height, std::vector<std::vector<double>>(width, std::vector<double>(4, 0.0))); // 4 канала: R, G, B, A
+    std::vector<std::vector<std::vector<double>>> sumColors(height, std::vector<std::vector<double>>(width, std::vector<double>(3, 0.0))); // 3 канала: R, G, B
 
     // Суммируем цвета всех изображений
     int processedCount = 0;
-    for (const QString& fileName : fileNames) {
-        if (progress.wasCanceled()) {
+    for (const QString& fileName : fileNames)
+    {
+        if (progress.wasCanceled())
+        {
             return; // Прерываем обработку, если пользователь нажал "Отмена"
         }
         QImage image(fileName);
-        for (int y = 0; y < height; ++y) {
-            for (int x = 0; x < width; ++x) {
+        if (image.height() != height || image.width() != width)
+        {
+            processedCount++;
+            imageCount--;
+            // Обновляем прогрессбар каждые 10 обработанных изображений
+            if (processedCount % 10 == 0)
+            {
+                progress.setValue(processedCount);
+                QApplication::processEvents(); // Обрабатываем события, чтобы прогрессбар обновился
+            }
+            continue;
+        }
+        for (int y = 0; y < height; ++y)
+        {
+            for (int x = 0; x < width; ++x)
+            {
                 QColor color = image.pixelColor(x, y);
                 sumColors[y][x][0] += color.red();
                 sumColors[y][x][1] += color.green();
                 sumColors[y][x][2] += color.blue();
-                sumColors[y][x][3] += color.alpha();
             }
         }
         processedCount++;
 
         // Обновляем прогрессбар каждые 10 обработанных изображений
-        if (processedCount % 10 == 0) {
+        if (processedCount % 10 == 0)
+        {
             progress.setValue(processedCount);
             QApplication::processEvents(); // Обрабатываем события, чтобы прогрессбар обновился
         }
@@ -111,8 +127,7 @@ void MainWindow::manyLoadImages(QStringList fileNames)
             int r = qBound(0, static_cast<int>(sumColors[y][x][0] / imageCount), 255);
             int g = qBound(0, static_cast<int>(sumColors[y][x][1] / imageCount), 255);
             int b = qBound(0, static_cast<int>(sumColors[y][x][2] / imageCount), 255);
-            int a = qBound(0, static_cast<int>(sumColors[y][x][3] / imageCount), 255);
-            tempImage.setPixelColor(x, y, QColor(r, g, b, a));
+            tempImage.setPixelColor(x, y, QColor(r, g, b, 255));
         }
     }
     progress.setValue(fileNames.size()); // Завершаем прогрессбар

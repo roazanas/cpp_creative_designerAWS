@@ -211,7 +211,7 @@ QImage MainWindow::floodFill(QImage& image, QPoint point, QColor oldColor, QColo
         }
     };
 
-    // использование std::set для отслеживания посещенных пикселей
+    // использование std::unordered_set для отслеживания посещенных пикселей
     std::unordered_set<QPoint, QPointHash> visitedPixels;
 
     while (!points.empty())

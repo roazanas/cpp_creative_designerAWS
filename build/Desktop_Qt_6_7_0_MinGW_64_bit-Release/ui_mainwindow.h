@@ -198,6 +198,11 @@ public:
         sizePolicy3.setHeightForWidth(manyLoadButton->sizePolicy().hasHeightForWidth());
         manyLoadButton->setSizePolicy(sizePolicy3);
         manyLoadButton->setMinimumSize(QSize(50, 50));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/loads.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        manyLoadButton->setIcon(icon1);
+        manyLoadButton->setIconSize(QSize(40, 40));
+        manyLoadButton->setCheckable(true);
 
         horizontalLayout_3->addWidget(manyLoadButton);
 
@@ -207,9 +212,9 @@ public:
         sizePolicy3.setHeightForWidth(saveButton->sizePolicy().hasHeightForWidth());
         saveButton->setSizePolicy(sizePolicy3);
         saveButton->setMinimumSize(QSize(50, 50));
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/folder-file-alt-svgrepo-com.gif"), QSize(), QIcon::Normal, QIcon::Off);
-        saveButton->setIcon(icon1);
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/folder-file-alt-svgrepo-com.gif"), QSize(), QIcon::Normal, QIcon::Off);
+        saveButton->setIcon(icon2);
         saveButton->setIconSize(QSize(40, 40));
         saveButton->setCheckable(true);
         saveButton->setFlat(false);
@@ -405,6 +410,9 @@ public:
         loadButton->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+O", nullptr));
 #endif // QT_CONFIG(shortcut)
         manyLoadButton->setText(QString());
+#if QT_CONFIG(shortcut)
+        manyLoadButton->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+Shift+O", nullptr));
+#endif // QT_CONFIG(shortcut)
 #if QT_CONFIG(tooltip)
         saveButton->setToolTip(QCoreApplication::translate("MainWindow", "\320\241\320\276\321\205\321\200\320\260\320\275\320\270\321\202\321\214 \320\270\320\267\320\276\320\261\321\200\320\260\320\266\320\265\320\275\320\270\320\265", nullptr));
 #endif // QT_CONFIG(tooltip)
